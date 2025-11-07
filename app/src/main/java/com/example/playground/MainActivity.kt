@@ -11,8 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.playground.ui.theme.PlaygroundTheme
+import com.example.playground.core.presentation.theme.PlaygroundTheme
+import com.example.playground.home.presentation.HomeScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +23,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             PlaygroundTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Friend",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    HomeScreen(modifier = Modifier.padding(innerPadding))
+//                    Greeting(
+//                        name = "Friend",
+//                        modifier = Modifier.padding(innerPadding)
+//                    )
                 }
             }
         }

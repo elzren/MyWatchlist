@@ -1,0 +1,32 @@
+package com.example.playground.core.di
+
+import com.example.playground.core.data.api.TmdbApiService
+import com.example.playground.core.utils.Constants.TMDB_BASE_URL
+import com.example.playground.home.data.repository.HomeRepositoryImp
+import com.example.playground.home.domain.repository.HomeRepository
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideTmdbApi(): TmdbApiService {
+        return Retrofit.Builder()
+            .baseUrl(TMDB_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(TmdbApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideHomeRepository(tmdbApi: TmdbApiService): HomeRepository = HomeRepositoryImp(tmdbApi)
+}
