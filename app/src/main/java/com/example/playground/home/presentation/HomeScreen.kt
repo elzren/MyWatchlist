@@ -24,7 +24,7 @@ fun HomeScreen(
             Text(text = "Loading...")
         }
         if (homeUiState.errorMessage != null) {
-            Text(text = homeUiState.errorMessage ?: "Something went wrong")
+            Text(text = "Error: " + (homeUiState.errorMessage ?: "Something went wrong"))
         }
     }
 }
