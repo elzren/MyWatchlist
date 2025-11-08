@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,9 +21,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
+import com.example.playground.R
 import com.example.playground.core.domain.model.Movie
 import com.example.playground.core.domain.model.Show
 import com.example.playground.core.utils.toTmdbImgUrl
@@ -138,10 +142,16 @@ fun HorizontalFeedItem(
     modifier: Modifier = Modifier,
     title: String? = null
 ) {
-    Card(modifier = modifier) {
+    Card(modifier = modifier
+        .width(180.dp)
+        .height(270.dp)) {
         AsyncImage(
             model = posterUrl,
-            contentDescription = title
+            contentDescription = title,
+            contentScale = ContentScale.Crop,
+            placeholder = painterResource(R.drawable.ic_launcher_foreground),
+            error = painterResource(R.drawable.ic_launcher_foreground),
+            modifier = Modifier.fillMaxSize()
         )
     }
 }

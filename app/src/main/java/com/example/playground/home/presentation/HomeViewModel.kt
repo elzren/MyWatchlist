@@ -27,18 +27,18 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 _uiState.update { currentState ->
                     when (result) {
                         is DataResult.Loading -> currentState.copy(
-                            isLoading = true,
+                            isTrendingMoviesLoading = true,
                             errorMessage = null
                         )
 
                         is DataResult.Success -> currentState.copy(
                             trendingMovies = result.data ?: emptyList(),
-                            isLoading = false,
+                            isTrendingMoviesLoading = false,
                         )
 
                         is DataResult.Error -> currentState.copy(
                             errorMessage = result.error,
-                            isLoading = false
+                            isTrendingMoviesLoading = false
                         )
                     }
                 }
@@ -52,18 +52,18 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 _uiState.update { currentState ->
                     when (result) {
                         is DataResult.Loading -> currentState.copy(
-                            isLoading = true,
+                            isTrendingShowsLoading = true,
                             errorMessage = null
                         )
 
                         is DataResult.Success -> currentState.copy(
                             trendingShows = result.data ?: emptyList(),
-                            isLoading = false,
+                            isTrendingShowsLoading = false,
                         )
 
                         is DataResult.Error -> currentState.copy(
                             errorMessage = result.error,
-                            isLoading = false
+                            isTrendingShowsLoading = false
                         )
                     }
                 }
