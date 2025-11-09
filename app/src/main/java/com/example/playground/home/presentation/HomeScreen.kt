@@ -2,6 +2,7 @@ package com.example.playground.home.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,9 +41,15 @@ fun HomeScreen(
     val homeUiState by viewModel.uiState.collectAsState()
 
     if (homeUiState.errorMessage != null) {
-        ScreenCenteredText(text = "Error: " + (homeUiState.errorMessage ?: "Something went wrong"))
+        CenterAlignedBox {
+            Text(
+                text = "Error: " + (homeUiState.errorMessage ?: "Something went wrong")
+            )
+        }
     } else if (homeUiState.isLoading) {
-        ScreenCenteredText(text = "Loading...")
+        CenterAlignedBox {
+            CircularProgressIndicator()
+        }
     } else {
         HomeScreenContent(
             movies = homeUiState.trendingMovies,
@@ -52,13 +60,12 @@ fun HomeScreen(
 }
 
 @Composable
-fun ScreenCenteredText(text: String, modifier: Modifier = Modifier) {
+fun CenterAlignedBox(modifier: Modifier = Modifier, content: @Composable (BoxScope.() -> Unit)) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier.fillMaxSize()
-    ) {
-        Text(text = text)
-    }
+        modifier = modifier.fillMaxSize(),
+        content = content
+    )
 }
 
 @Composable
@@ -142,9 +149,12 @@ fun HorizontalFeedItem(
     modifier: Modifier = Modifier,
     title: String? = null
 ) {
-    Card(modifier = modifier
-        .width(180.dp)
-        .height(270.dp)) {
+    Card(
+        shape = MaterialTheme.shapes.small,
+        modifier = modifier
+            .width(180.dp)
+            .height(270.dp)
+    ) {
         AsyncImage(
             model = posterUrl,
             contentDescription = title,
