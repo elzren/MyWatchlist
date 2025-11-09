@@ -1,5 +1,6 @@
 package com.example.playground.home.presentation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -31,12 +32,14 @@ import coil3.compose.AsyncImage
 import com.example.playground.R
 import com.example.playground.core.domain.model.Movie
 import com.example.playground.core.domain.model.Show
+import com.example.playground.core.presentation.navigation.NavActionManager
 import com.example.playground.core.utils.toTmdbImgUrl
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    navActionManager: NavActionManager
 ) {
     val homeUiState by viewModel.uiState.collectAsState()
 
@@ -54,7 +57,8 @@ fun HomeScreen(
         HomeScreenContent(
             movies = homeUiState.trendingMovies,
             shows = homeUiState.trendingShows,
-            modifier = modifier
+            modifier = modifier,
+            navActionManager = navActionManager
         )
     }
 }
@@ -69,7 +73,12 @@ fun CenterAlignedBox(modifier: Modifier = Modifier, content: @Composable (BoxSco
 }
 
 @Composable
-fun HomeScreenContent(movies: List<Movie>, shows: List<Show>, modifier: Modifier = Modifier) {
+fun HomeScreenContent(
+    movies: List<Movie>,
+    shows: List<Show>,
+    modifier: Modifier = Modifier,
+    navActionManager: NavActionManager
+) {
     LazyColumn(modifier = modifier) {
         item {
             Column(modifier = Modifier) {
@@ -78,7 +87,8 @@ fun HomeScreenContent(movies: List<Movie>, shows: List<Show>, modifier: Modifier
                 HorizontalFeed(items = movies, itemContent = { movie ->
                     HorizontalFeedItem(
                         posterUrl = movie.posterPath.toTmdbImgUrl(),
-                        title = movie.title
+                        title = movie.title,
+                        onClick = { navActionManager.toMovieDetail(id = movie.id) }
                     )
                 })
             }
@@ -90,7 +100,8 @@ fun HomeScreenContent(movies: List<Movie>, shows: List<Show>, modifier: Modifier
             HorizontalFeed(items = shows, itemContent = { show ->
                 HorizontalFeedItem(
                     posterUrl = show.posterPath.toTmdbImgUrl(),
-                    title = show.name
+                    title = show.name,
+                    onClick = { navActionManager.toMovieDetail(id = show.id) }
                 )
             })
         }
@@ -101,7 +112,8 @@ fun HomeScreenContent(movies: List<Movie>, shows: List<Show>, modifier: Modifier
             HorizontalFeed(items = movies, itemContent = { movie ->
                 HorizontalFeedItem(
                     posterUrl = movie.posterPath.toTmdbImgUrl(),
-                    title = movie.title
+                    title = movie.title,
+                    onClick = { navActionManager.toMovieDetail(id = movie.id) }
                 )
             })
         }
@@ -112,7 +124,8 @@ fun HomeScreenContent(movies: List<Movie>, shows: List<Show>, modifier: Modifier
             HorizontalFeed(items = shows, itemContent = { show ->
                 HorizontalFeedItem(
                     posterUrl = show.posterPath.toTmdbImgUrl(),
-                    title = show.name
+                    title = show.name,
+                    onClick = { navActionManager.toMovieDetail(id = show.id) }
                 )
             })
         }
@@ -147,13 +160,15 @@ fun <T> HorizontalFeed(
 fun HorizontalFeedItem(
     posterUrl: String,
     modifier: Modifier = Modifier,
-    title: String? = null
+    title: String? = null,
+    onClick: () -> Unit
 ) {
     Card(
         shape = MaterialTheme.shapes.small,
         modifier = modifier
             .width(180.dp)
             .height(270.dp)
+            .clickable { onClick() }
     ) {
         AsyncImage(
             model = posterUrl,
