@@ -11,4 +11,10 @@ object Routes {
 
     @Serializable
     data class MovieDetail(val id: Int)
+
+    @Serializable
+    object Watchlist
+
+    @Serializable
+    object Settings
 }

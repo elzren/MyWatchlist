@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.example.playground.core.presentation.composables.BottomNavBar
 import com.example.playground.core.presentation.navigation.NavActionManager
 import com.example.playground.core.presentation.navigation.Navigation
 import com.example.playground.core.presentation.theme.PlaygroundTheme
@@ -21,9 +22,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PlaygroundTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val navController = rememberNavController()
-                    val navActionManager = NavActionManager.rememberNavActionManager(navController)
+                val navController = rememberNavController()
+                val navActionManager = NavActionManager.rememberNavActionManager(navController)
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    bottomBar = { BottomNavBar(navController = navController) }) { innerPadding ->
                     Navigation(
                         navController = navController,
                         navActionManager = navActionManager,
