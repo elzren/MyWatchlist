@@ -7,7 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.playground.home.presentation.HomeScreen
-import com.example.playground.mediaDetail.presentation.MovieDetailScreen
+import com.example.playground.mediaDetail.presentation.movie.MovieDetailScreen
+import com.example.playground.mediaDetail.presentation.show.ShowDetailScreen
 import com.example.playground.search.presentation.SearchScreen
 import com.example.playground.settings.presentation.SettingsScreen
 import com.example.playground.watchlist.presentation.WatchlistScreen
@@ -32,8 +33,13 @@ fun Navigation(
         }
 
         composable<Routes.MovieDetail> { backStackEntry ->
-            val detail: Routes.MovieDetail = backStackEntry.toRoute()
-            MovieDetailScreen(id = detail.id, navActionManager = navActionManager)
+            val movieDetail: Routes.MovieDetail = backStackEntry.toRoute()
+            MovieDetailScreen(movieId = movieDetail.movieId, navActionManager = navActionManager)
+        }
+
+        composable<Routes.ShowDetail> { backStackEntry ->
+            val showDetail: Routes.ShowDetail = backStackEntry.toRoute()
+            ShowDetailScreen(showId = showDetail.showId, navActionManager = navActionManager)
         }
 
         composable<Routes.Watchlist> {

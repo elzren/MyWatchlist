@@ -5,6 +5,9 @@ import retrofit2.http.Query
 import com.example.playground.core.domain.model.MediaResponse
 import com.example.playground.home.domain.model.Movie
 import com.example.playground.home.domain.model.Show
+import com.example.playground.mediaDetail.domain.model.MovieDetail
+import com.example.playground.mediaDetail.domain.model.ShowDetail
+import retrofit2.http.Path
 
 interface TmdbApiService {
 
@@ -27,4 +30,14 @@ interface TmdbApiService {
     suspend fun getPopularShows(
         @Query("page") page: Int = 1,
     ): MediaResponse<Show>
+
+    @GET("movie/{movieId}")
+    suspend fun getMovieDetail(
+        @Path("movieId") movieId: Int
+    ): MovieDetail
+
+    @GET("tv/{showId}")
+    suspend fun getShowDetail(
+        @Path("showId") showId: Int
+    ): ShowDetail
 }

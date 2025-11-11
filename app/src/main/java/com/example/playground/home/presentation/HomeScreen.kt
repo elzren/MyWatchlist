@@ -84,7 +84,7 @@ fun HomeScreenContent(
                     HorizontalFeedItem(
                         posterUrl = movie.posterPath.toTmdbImgUrl(),
                         title = movie.title,
-                        onClick = { navActionManager.toMovieDetail(id = movie.id) }
+                        onClick = { navActionManager.toMovieDetail(movie.id) }
                     )
                 })
             }
@@ -97,7 +97,7 @@ fun HomeScreenContent(
                 HorizontalFeedItem(
                     posterUrl = show.posterPath.toTmdbImgUrl(),
                     title = show.name,
-                    onClick = { navActionManager.toMovieDetail(id = show.id) }
+                    onClick = { navActionManager.toShowDetail(show.id) }
                 )
             })
         }
@@ -109,7 +109,7 @@ fun HomeScreenContent(
                 HorizontalFeedItem(
                     posterUrl = movie.posterPath.toTmdbImgUrl(),
                     title = movie.title,
-                    onClick = { navActionManager.toMovieDetail(id = movie.id) }
+                    onClick = { navActionManager.toMovieDetail(movie.id) }
                 )
             })
         }
@@ -121,7 +121,7 @@ fun HomeScreenContent(
                 HorizontalFeedItem(
                     posterUrl = show.posterPath.toTmdbImgUrl(),
                     title = show.name,
-                    onClick = { navActionManager.toMovieDetail(id = show.id) }
+                    onClick = { navActionManager.toShowDetail(show.id) }
                 )
             })
         }

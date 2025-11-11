@@ -18,8 +18,12 @@ class NavActionManager(private val navController: NavHostController) {
         navController.popBackStack()
     }
 
-    fun toMovieDetail(id: Int) {
-        navController.navigate(Routes.MovieDetail(id))
+    fun toMovieDetail(movieId: Int) {
+        navController.navigate(Routes.MovieDetail(movieId))
+    }
+
+    fun toShowDetail(showId: Int) {
+        navController.navigate(Routes.ShowDetail(showId))
     }
 
     fun toSearch() {

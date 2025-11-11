@@ -10,7 +10,10 @@ object Routes {
     object Search
 
     @Serializable
-    data class MovieDetail(val id: Int)
+    data class MovieDetail(val movieId: Int)
+
+    @Serializable
+    data class ShowDetail(val showId: Int)
 
     @Serializable
     object Watchlist

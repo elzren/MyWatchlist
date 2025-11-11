@@ -5,6 +5,8 @@ import com.example.playground.core.data.api.TmdbApiService
 import com.example.playground.core.utils.Constants.TMDB_BASE_URL
 import com.example.playground.home.data.repository.HomeRepositoryImp
 import com.example.playground.home.domain.repository.HomeRepository
+import com.example.playground.mediaDetail.data.repository.MediaDetailRepositoryImp
+import com.example.playground.mediaDetail.domain.repository.MediaDetailRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,4 +40,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideHomeRepository(tmdbApi: TmdbApiService): HomeRepository = HomeRepositoryImp(tmdbApi)
+
+    @Provides
+    @Singleton
+    fun provideMediaRepository(tmdbApi: TmdbApiService): MediaDetailRepository =
+        MediaDetailRepositoryImp(tmdbApi)
 }
