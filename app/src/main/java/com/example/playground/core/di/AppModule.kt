@@ -1,5 +1,6 @@
 package com.example.playground.core.di
 
+import com.example.playground.core.data.api.TmdbApiKeyInterceptor
 import com.example.playground.core.data.api.TmdbApiService
 import com.example.playground.core.utils.Constants.TMDB_BASE_URL
 import com.example.playground.home.data.repository.HomeRepositoryImp
@@ -8,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -18,10 +20,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTmdbApi(): TmdbApiService {
+    fun provideTmdbApiKeyInterceptor(): TmdbApiKeyInterceptor {
+        return TmdbApiKeyInterceptor()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTmdbApi(tmdbApiKeyInterceptor: TmdbApiKeyInterceptor): TmdbApiService {
         return Retrofit.Builder()
             .baseUrl(TMDB_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(OkHttpClient.Builder().addInterceptor(tmdbApiKeyInterceptor).build())
             .build()
             .create(TmdbApiService::class.java)
     }
