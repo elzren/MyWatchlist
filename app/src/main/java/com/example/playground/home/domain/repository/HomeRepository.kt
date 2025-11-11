@@ -9,4 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface HomeRepository {
     suspend fun getTrendingMoviesToday(): Flow<DataResult<List<Movie>>>
     suspend fun getTrendingShowsToday(): Flow<DataResult<List<Show>>>
+
+    suspend fun getPopularMovies(): Flow<DataResult<List<Movie>>>
+    suspend fun getPopularShows(): Flow<DataResult<List<Show>>>
 }

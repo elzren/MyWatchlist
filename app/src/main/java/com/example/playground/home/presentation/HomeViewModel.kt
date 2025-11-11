@@ -19,6 +19,8 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     init {
         getTrendingMovies()
         getTrendingShows()
+        getPopularMovies()
+        getPopularShows()
     }
 
     fun getTrendingMovies() {
@@ -64,6 +66,56 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                         is DataResult.Error -> currentState.copy(
                             errorMessage = result.error,
                             isTrendingShowsLoading = false
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun getPopularMovies() {
+        viewModelScope.launch {
+            homeRepository.getPopularMovies().collect { result ->
+                _uiState.update { currentState ->
+                    when (result) {
+                        is DataResult.Loading -> currentState.copy(
+                            isPopularMoviesLoading = true,
+                            errorMessage = null
+                        )
+
+                        is DataResult.Success -> currentState.copy(
+                            popularMovies = result.data ?: emptyList(),
+                            isPopularMoviesLoading = false,
+                        )
+
+                        is DataResult.Error -> currentState.copy(
+                            errorMessage = result.error,
+                            isPopularMoviesLoading = false
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun getPopularShows() {
+        viewModelScope.launch {
+            homeRepository.getPopularShows().collect { result ->
+                _uiState.update { currentState ->
+                    when (result) {
+                        is DataResult.Loading -> currentState.copy(
+                            isPopularShowsLoading = true,
+                            errorMessage = null
+                        )
+
+                        is DataResult.Success -> currentState.copy(
+                            popularShows = result.data ?: emptyList(),
+                            isPopularShowsLoading = false,
+                        )
+
+                        is DataResult.Error -> currentState.copy(
+                            errorMessage = result.error,
+                            isPopularShowsLoading = false
                         )
                     }
                 }

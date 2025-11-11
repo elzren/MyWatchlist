@@ -30,8 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.playground.R
-import com.example.playground.core.domain.model.Movie
-import com.example.playground.core.domain.model.Show
 import com.example.playground.core.presentation.navigation.NavActionManager
 import com.example.playground.core.utils.toTmdbImgUrl
 
@@ -55,8 +53,7 @@ fun HomeScreen(
         }
     } else {
         HomeScreenContent(
-            movies = homeUiState.trendingMovies,
-            shows = homeUiState.trendingShows,
+            homeUiState = homeUiState,
             modifier = modifier,
             navActionManager = navActionManager
         )
@@ -74,8 +71,7 @@ fun CenterAlignedBox(modifier: Modifier = Modifier, content: @Composable (BoxSco
 
 @Composable
 fun HomeScreenContent(
-    movies: List<Movie>,
-    shows: List<Show>,
+    homeUiState: HomeUiState,
     modifier: Modifier = Modifier,
     navActionManager: NavActionManager
 ) {
@@ -84,7 +80,7 @@ fun HomeScreenContent(
             Column(modifier = Modifier) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Heading(title = "Trending Movies")
-                HorizontalFeed(items = movies, itemContent = { movie ->
+                HorizontalFeed(items = homeUiState.trendingMovies, itemContent = { movie ->
                     HorizontalFeedItem(
                         posterUrl = movie.posterPath.toTmdbImgUrl(),
                         title = movie.title,
@@ -97,7 +93,7 @@ fun HomeScreenContent(
         item {
             Spacer(modifier = Modifier.height(8.dp))
             Heading(title = "Trending Shows")
-            HorizontalFeed(items = shows, itemContent = { show ->
+            HorizontalFeed(items = homeUiState.trendingShows, itemContent = { show ->
                 HorizontalFeedItem(
                     posterUrl = show.posterPath.toTmdbImgUrl(),
                     title = show.name,
@@ -109,7 +105,7 @@ fun HomeScreenContent(
         item {
             Spacer(modifier = Modifier.height(8.dp))
             Heading(title = "Popular Movies")
-            HorizontalFeed(items = movies, itemContent = { movie ->
+            HorizontalFeed(items = homeUiState.popularMovies, itemContent = { movie ->
                 HorizontalFeedItem(
                     posterUrl = movie.posterPath.toTmdbImgUrl(),
                     title = movie.title,
@@ -121,7 +117,7 @@ fun HomeScreenContent(
         item {
             Spacer(modifier = Modifier.height(8.dp))
             Heading(title = "Popular Shows")
-            HorizontalFeed(items = shows, itemContent = { show ->
+            HorizontalFeed(items = homeUiState.popularShows, itemContent = { show ->
                 HorizontalFeedItem(
                     posterUrl = show.posterPath.toTmdbImgUrl(),
                     title = show.name,

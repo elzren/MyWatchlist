@@ -20,4 +20,16 @@ interface TmdbApiService {
         @Query("page") page: Int = 1,
         @Query("api_key") apiKey: String = TMDB_API_KEY
     ): MediaResponse<Show>
+
+    @GET("movie/popular")
+    suspend fun getPopularMovies(
+        @Query("page") page: Int = 1,
+        @Query("api_key") apiKey: String = TMDB_API_KEY
+    ): MediaResponse<Movie>
+
+    @GET("tv/popular")
+    suspend fun getPopularShows(
+        @Query("page") page: Int = 1,
+        @Query("api_key") apiKey: String = TMDB_API_KEY
+    ): MediaResponse<Show>
 }
