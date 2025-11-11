@@ -1,9 +1,8 @@
 package com.example.playground.home.domain.repository
 
-import com.example.playground.core.data.api.TmdbApiService
-import com.example.playground.core.domain.model.Movie
-import com.example.playground.core.domain.model.Show
 import com.example.playground.core.utils.DataResult
+import com.example.playground.home.domain.model.Movie
+import com.example.playground.home.domain.model.Show
 import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {

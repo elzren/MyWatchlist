@@ -3,8 +3,8 @@ package com.example.playground.core.data.api
 import retrofit2.http.GET
 import retrofit2.http.Query
 import com.example.playground.core.domain.model.MediaResponse
-import com.example.playground.core.domain.model.Movie
-import com.example.playground.core.domain.model.Show
+import com.example.playground.home.domain.model.Movie
+import com.example.playground.home.domain.model.Show
 
 interface TmdbApiService {
 

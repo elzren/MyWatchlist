@@ -1,7 +1,7 @@
 package com.example.playground.home.presentation
 
-import com.example.playground.core.domain.model.Movie
-import com.example.playground.core.domain.model.Show
+import com.example.playground.home.domain.model.Movie
+import com.example.playground.home.domain.model.Show
 
 data class HomeUiState(
     val trendingMovies: List<Movie> = emptyList(),
