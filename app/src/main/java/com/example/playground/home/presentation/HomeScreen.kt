@@ -3,13 +3,16 @@ package com.example.playground.home.presentation
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
@@ -17,22 +20,28 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.playground.R
+import com.example.playground.core.presentation.composables.CenterAlignedBox
+import com.example.playground.core.presentation.composables.ScaffoldWithTopAppBar
 import com.example.playground.core.presentation.navigation.NavActionManager
 import com.example.playground.core.utils.toTmdbImgUrl
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -40,33 +49,33 @@ fun HomeScreen(
     navActionManager: NavActionManager
 ) {
     val homeUiState by viewModel.uiState.collectAsState()
+    val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    if (homeUiState.errorMessage != null) {
-        CenterAlignedBox {
-            Text(
-                text = "Error: " + (homeUiState.errorMessage ?: "Something went wrong")
-            )
+    ScaffoldWithTopAppBar(
+        title = stringResource(R.string.home),
+        scrollBehavior = topAppBarScrollBehavior,
+        contentWindowInsets = WindowInsets.systemBars.only(WindowInsetsSides.Horizontal),
+        modifier = modifier
+    ) { padding ->
+        Box(modifier = Modifier.padding(padding)) {
+            if (homeUiState.errorMessage != null) {
+                CenterAlignedBox {
+                    Text(text = "Error: " + homeUiState.errorMessage)
+                }
+            } else if (homeUiState.isLoading) {
+                CenterAlignedBox {
+                    CircularProgressIndicator()
+                }
+            } else {
+                HomeScreenContent(
+                    homeUiState = homeUiState,
+                    modifier = Modifier
+                        .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
+                    navActionManager = navActionManager
+                )
+            }
         }
-    } else if (homeUiState.isLoading) {
-        CenterAlignedBox {
-            CircularProgressIndicator()
-        }
-    } else {
-        HomeScreenContent(
-            homeUiState = homeUiState,
-            modifier = modifier,
-            navActionManager = navActionManager
-        )
     }
-}
-
-@Composable
-fun CenterAlignedBox(modifier: Modifier = Modifier, content: @Composable (BoxScope.() -> Unit)) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier.fillMaxSize(),
-        content = content
-    )
 }
 
 @Composable
@@ -77,21 +86,17 @@ fun HomeScreenContent(
 ) {
     LazyColumn(modifier = modifier) {
         item {
-            Column(modifier = Modifier) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Heading(title = "Trending Movies")
-                HorizontalFeed(items = homeUiState.trendingMovies, itemContent = { movie ->
-                    HorizontalFeedItem(
-                        posterUrl = movie.posterPath.toTmdbImgUrl(),
-                        title = movie.title,
-                        onClick = { navActionManager.toMovieDetail(movie.id) }
-                    )
-                })
-            }
+            Heading(title = "Trending Movies")
+            HorizontalFeed(items = homeUiState.trendingMovies, itemContent = { movie ->
+                HorizontalFeedItem(
+                    posterUrl = movie.posterPath.toTmdbImgUrl(),
+                    title = movie.title,
+                    onClick = { navActionManager.toMovieDetail(movie.id) }
+                )
+            })
         }
 
         item {
-            Spacer(modifier = Modifier.height(8.dp))
             Heading(title = "Trending Shows")
             HorizontalFeed(items = homeUiState.trendingShows, itemContent = { show ->
                 HorizontalFeedItem(
@@ -103,7 +108,6 @@ fun HomeScreenContent(
         }
 
         item {
-            Spacer(modifier = Modifier.height(8.dp))
             Heading(title = "Popular Movies")
             HorizontalFeed(items = homeUiState.popularMovies, itemContent = { movie ->
                 HorizontalFeedItem(
@@ -115,7 +119,6 @@ fun HomeScreenContent(
         }
 
         item {
-            Spacer(modifier = Modifier.height(8.dp))
             Heading(title = "Popular Shows")
             HorizontalFeed(items = homeUiState.popularShows, itemContent = { show ->
                 HorizontalFeedItem(
@@ -130,11 +133,14 @@ fun HomeScreenContent(
 
 @Composable
 fun Heading(title: String, modifier: Modifier = Modifier) {
-    Text(
-        text = title,
-        modifier = modifier.padding(horizontal = 8.dp),
-        style = MaterialTheme.typography.titleLarge
-    )
+    Column {
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = title,
+            modifier = modifier.padding(horizontal = 20.dp),
+            style = MaterialTheme.typography.titleLarge
+        )
+    }
 }
 
 @Composable
@@ -144,7 +150,7 @@ fun <T> HorizontalFeed(
     modifier: Modifier = Modifier
 ) {
     LazyRow(
-        contentPadding = PaddingValues(8.dp),
+        contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         modifier = modifier
     ) {
