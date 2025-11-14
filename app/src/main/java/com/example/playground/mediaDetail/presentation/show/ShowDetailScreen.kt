@@ -3,12 +3,13 @@ package com.example.playground.mediaDetail.presentation.show
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -19,18 +20,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.playground.R
 import com.example.playground.core.presentation.composables.CenterAlignedBox
 import com.example.playground.core.presentation.navigation.NavActionManager
 import com.example.playground.core.utils.toTmdbImgUrl
 import com.example.playground.mediaDetail.domain.model.ShowDetail
 import com.example.playground.mediaDetail.presentation.composables.GenresRow
+import com.example.playground.mediaDetail.presentation.composables.InfoRow
 import com.example.playground.mediaDetail.presentation.composables.MediaBanner
 import com.example.playground.mediaDetail.presentation.composables.MediaDetailScaffold
 import com.example.playground.mediaDetail.presentation.composables.MediaTitle
-import com.example.playground.mediaDetail.presentation.composables.PosterInfoRow
+import com.example.playground.mediaDetail.presentation.composables.PosterRow
 import com.example.playground.mediaDetail.presentation.composables.Synopsis
-import com.example.playground.mediaDetail.presentation.composables.TextWithIcon
 
 @Composable
 fun ShowDetailScreen(
@@ -80,31 +80,23 @@ fun ShowDetailScreenContent(
         ) {
             Box {
                 MediaBanner(bannerUrl = showDetail.backdropPath.toTmdbImgUrl("original"))
-                PosterInfoRow(posterUrl = showDetail.posterPath.toTmdbImgUrl()) {
+                PosterRow(posterUrl = showDetail.posterPath.toTmdbImgUrl()) {
                     MediaTitle(
                         title = showDetail.name,
-                        modifier = Modifier.padding(vertical = 16.dp)
+                        modifier = Modifier.padding(top = 16.dp)
                     )
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    ) {
-                        TextWithIcon(text = "TV", icon = R.drawable.live_tv_24px)
-                        TextWithIcon(
-                            text = showDetail.firstAirDate.substringBefore('-'),
-                            icon = R.drawable.calendar_month_24px
+                    InfoRow(
+                        infoList = listOf(
+                            "Tv",
+                            showDetail.firstAirDate.substringBefore('-'),
+                            showDetail.originalLanguage.uppercase(),
+                            showDetail.voteAverage.toString().substring(0, 3),
                         )
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        TextWithIcon(
-                            text = showDetail.voteAverage.toString().substring(0,3),
-                            icon = R.drawable.star_24px
-                        )
-                        TextWithIcon(
-                            text = showDetail.originalLanguage.uppercase(),
-                            icon = R.drawable.language_24px
-                        )
-                    }
+                    )
+                    Button(
+                        onClick = {},
+                        shape = RoundedCornerShape(8.dp)
+                    ) { Text(text = "Add to Watchlist") }
                 }
             }
             GenresRow(genres = showDetail.genres)

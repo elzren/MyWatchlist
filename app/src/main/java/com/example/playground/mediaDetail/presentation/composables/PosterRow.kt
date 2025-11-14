@@ -1,6 +1,5 @@
 package com.example.playground.mediaDetail.presentation.composables
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -12,16 +11,16 @@ import androidx.compose.ui.unit.dp
 import com.example.playground.core.presentation.composables.MediaPoster
 
 @Composable
-fun PosterInfoRow(
+fun PosterRow(
     posterUrl: String,
     modifier: Modifier = Modifier,
-    infoContent: @Composable ColumnScope.() -> Unit
+    content: @Composable ColumnScope.() -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.Bottom,
         modifier = modifier
             .padding(horizontal = 16.dp)
-            .padding(top = 150.dp)
+            .padding(top = 180.dp)
     ) {
         MediaPoster(
             posterUrl = posterUrl,
@@ -30,9 +29,8 @@ fun PosterInfoRow(
             modifier = Modifier.padding(end = 16.dp)
         )
         Column(
-            verticalArrangement = Arrangement.Bottom,
             modifier = Modifier.padding(bottom = 16.dp),
-            content = infoContent
+            content = content
         )
     }
 }
