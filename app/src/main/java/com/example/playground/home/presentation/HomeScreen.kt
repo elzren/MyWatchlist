@@ -39,6 +39,7 @@ import com.example.playground.R
 import com.example.playground.core.presentation.composables.CenterAlignedBox
 import com.example.playground.core.presentation.composables.ScaffoldWithTopAppBar
 import com.example.playground.core.presentation.navigation.NavActionManager
+import com.example.playground.core.utils.Constants
 import com.example.playground.core.utils.toTmdbImgUrl
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,6 +57,7 @@ fun HomeScreen(
         scrollBehavior = topAppBarScrollBehavior,
         contentWindowInsets = WindowInsets.systemBars.only(WindowInsetsSides.Horizontal),
         modifier = modifier
+            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
     ) { padding ->
         Box(modifier = Modifier.padding(padding)) {
             if (homeUiState.errorMessage != null) {
@@ -69,8 +71,6 @@ fun HomeScreen(
             } else {
                 HomeScreenContent(
                     homeUiState = homeUiState,
-                    modifier = Modifier
-                        .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
                     navActionManager = navActionManager
                 )
             }
@@ -168,8 +168,8 @@ fun HorizontalFeedItem(
     Card(
         shape = MaterialTheme.shapes.small,
         modifier = modifier
-            .width(180.dp)
-            .height(270.dp)
+            .width(Constants.MEDIA_POSTER_WIDTH.dp)
+            .height(Constants.MEDIA_POSTER_HEIGHT.dp)
             .clickable { onClick() }
     ) {
         AsyncImage(
