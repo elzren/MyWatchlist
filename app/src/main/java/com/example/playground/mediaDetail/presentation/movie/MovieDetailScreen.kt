@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -21,10 +23,12 @@ import com.example.playground.core.presentation.composables.CenterAlignedBox
 import com.example.playground.core.presentation.navigation.NavActionManager
 import com.example.playground.core.utils.toTmdbImgUrl
 import com.example.playground.mediaDetail.domain.model.MovieDetail
+import com.example.playground.mediaDetail.presentation.composables.GenresRow
 import com.example.playground.mediaDetail.presentation.composables.MediaBanner
 import com.example.playground.mediaDetail.presentation.composables.MediaDetailScaffold
 import com.example.playground.mediaDetail.presentation.composables.MediaTitle
 import com.example.playground.mediaDetail.presentation.composables.PosterInfoRow
+import com.example.playground.mediaDetail.presentation.composables.Synopsis
 import com.example.playground.mediaDetail.presentation.composables.TextWithIcon
 
 @Composable
@@ -69,7 +73,8 @@ fun MovieDetailScreenContent(
             modifier = modifier
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = padding.calculateBottomPadding())
-                .padding(bottom = 80.dp)
+                .padding(bottom = 80.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Box {
                 MediaBanner(bannerUrl = movieDetail.backdropPath.toTmdbImgUrl("original"))
@@ -83,14 +88,32 @@ fun MovieDetailScreenContent(
                         modifier = Modifier.padding(bottom = 8.dp)
                     ) {
                         TextWithIcon(text = "Movie", icon = R.drawable.movie_24px)
-                        TextWithIcon(text = movieDetail.releaseDate, icon = R.drawable.calendar_month_24px)
+                        TextWithIcon(
+                            text = movieDetail.releaseDate.substringBefore('-'),
+                            icon = R.drawable.calendar_month_24px
+                        )
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        TextWithIcon(text = movieDetail.voteAverage.toString(), icon = R.drawable.star_shine_24px)
-                        TextWithIcon(text = movieDetail.originalLanguage, icon = R.drawable.language_24px)
+                        TextWithIcon(
+                            text = movieDetail.voteAverage.toString().substring(0, 3),
+                            icon = R.drawable.star_24px
+                        )
+                        TextWithIcon(
+                            text = movieDetail.originalLanguage.uppercase(),
+                            icon = R.drawable.language_24px
+                        )
                     }
                 }
             }
+            GenresRow(genres = movieDetail.genres)
+            Synopsis(synopsis = movieDetail.overview)
+
+            // to check scroll behavior
+            Box(
+                modifier = Modifier
+                    .height(1000.dp)
+                    .fillMaxWidth()
+            )
         }
     }
 }
