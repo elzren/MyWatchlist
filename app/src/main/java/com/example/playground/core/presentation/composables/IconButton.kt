@@ -1,5 +1,6 @@
-package com.example.playground.mediaDetail.presentation.composables
+package com.example.playground.core.presentation.composables
 
+import androidx.annotation.StringRes
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -13,6 +14,16 @@ fun BackIconButton(onClick: () -> Unit) {
         Icon(
             painter = painterResource(R.drawable.arrow_back_24px),
             contentDescription = stringResource(R.string.back)
+        )
+    }
+}
+
+@Composable
+fun CloseIconButton(onClick: () -> Unit, @StringRes description: Int = R.string.close) {
+    IconButton(onClick = onClick) {
+        Icon(
+            painter = painterResource(R.drawable.close_24px),
+            contentDescription = stringResource(description)
         )
     }
 }

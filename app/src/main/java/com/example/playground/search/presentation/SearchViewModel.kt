@@ -32,6 +32,10 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
         }
     }
 
+    fun resetQuery() {
+        _uiState.update { currentState -> currentState.copy(query = "") }
+    }
+
     private fun debouncedSearch(query: String) {
         searchJob?.cancel()
         searchJob = viewModelScope.launch {

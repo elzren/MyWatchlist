@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
@@ -24,6 +25,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -38,6 +40,8 @@ import com.example.playground.core.presentation.composables.MediaPosterSmall
 import com.example.playground.core.presentation.mapper.userMessage
 import com.example.playground.core.presentation.navigation.NavActionManager
 import com.example.playground.core.utils.toTmdbImgUrl
+import com.example.playground.core.presentation.composables.BackIconButton
+import com.example.playground.core.presentation.composables.CloseIconButton
 import com.example.playground.mediaDetail.presentation.composables.InfoRow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,7 +71,12 @@ fun MainSearchBar(
 ) {
     val searchUiState by viewModel.uiState.collectAsState()
     val searchResults = searchUiState.searchResults.collectAsLazyPagingItems()
-    var expanded by rememberSaveable { mutableStateOf(false) }
+    var isSearchActive by rememberSaveable { mutableStateOf(false) }
+
+    val onSearchActiveChange: (Boolean) -> Unit = {
+        isSearchActive = it
+        if (!isSearchActive) viewModel.resetQuery()
+    }
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -80,13 +89,31 @@ fun MainSearchBar(
                     query = searchUiState.query,
                     onQueryChange = viewModel::onQueryChange,
                     onSearch = {},
-                    expanded = expanded,
-                    onExpandedChange = { expanded = it },
-                    placeholder = { Text("Search...") }
+                    expanded = isSearchActive,
+                    onExpandedChange = onSearchActiveChange,
+                    placeholder = { Text(stringResource(R.string.search_placeholder)) },
+                    leadingIcon = {
+                        if (isSearchActive) {
+                            BackIconButton(onClick = {
+                                isSearchActive = false
+                                viewModel.resetQuery()
+                            })
+                        } else {
+                            Icon(
+                                painter = painterResource(R.drawable.search_24px),
+                                contentDescription = stringResource(R.string.search)
+                            )
+                        }
+                    },
+                    trailingIcon = {
+                        if (isSearchActive && searchUiState.query.isNotEmpty()) {
+                            CloseIconButton(onClick = { viewModel.resetQuery() }, description = R.string.delete)
+                        }
+                    },
                 )
             },
-            expanded = expanded,
-            onExpandedChange = { expanded = it },
+            expanded = isSearchActive,
+            onExpandedChange = onSearchActiveChange,
         ) {
             LazyColumn(
                 modifier = Modifier

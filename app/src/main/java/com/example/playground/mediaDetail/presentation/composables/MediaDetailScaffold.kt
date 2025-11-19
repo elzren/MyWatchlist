@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import com.example.playground.core.presentation.composables.BackIconButton
 import com.example.playground.core.presentation.composables.ScaffoldWithTopAppBar
 import com.example.playground.core.presentation.navigation.NavActionManager
 
