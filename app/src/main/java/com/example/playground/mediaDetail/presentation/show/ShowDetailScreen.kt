@@ -3,6 +3,7 @@ package com.example.playground.mediaDetail.presentation.show
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.playground.core.presentation.composables.CenterAlignedBox
+import com.example.playground.core.presentation.composables.CenteredBox
 import com.example.playground.core.presentation.navigation.NavActionManager
 import com.example.playground.core.utils.toTmdbImgUrl
 import com.example.playground.mediaDetail.domain.model.ShowDetail
@@ -47,11 +48,11 @@ fun ShowDetailScreen(
 
     with(showDetailUiState) {
         if (errorMessage != null) {
-            CenterAlignedBox {
+            CenteredBox(modifier = Modifier.fillMaxSize()) {
                 Text(text = stringResource(errorMessage))
             }
         } else if (showDetail == null) {
-            CenterAlignedBox {
+            CenteredBox(modifier = Modifier.fillMaxSize()) {
                 CircularProgressIndicator()
             }
         } else {

@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.playground.R
-import com.example.playground.core.presentation.composables.CenterAlignedBox
+import com.example.playground.core.presentation.composables.CenteredBox
 import com.example.playground.core.presentation.composables.ScaffoldWithTopAppBar
 import com.example.playground.core.presentation.navigation.NavActionManager
 import com.example.playground.core.utils.Constants
@@ -62,11 +62,11 @@ fun HomeScreen(
         Box(modifier = Modifier.padding(padding)) {
             with(homeUiState) {
                 if (errorMessage != null) {
-                    CenterAlignedBox {
+                    CenteredBox(modifier = Modifier.fillMaxSize()) {
                         Text(text = stringResource(errorMessage))
                     }
                 } else if (isLoading) {
-                    CenterAlignedBox {
+                    CenteredBox(modifier = Modifier.fillMaxSize()) {
                         CircularProgressIndicator()
                     }
                 } else {
