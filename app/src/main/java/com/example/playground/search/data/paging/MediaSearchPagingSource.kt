@@ -4,16 +4,16 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import coil3.network.HttpException
 import com.example.playground.core.data.api.TmdbApiService
-import com.example.playground.core.domain.model.Media
+import com.example.playground.core.domain.model.MediaModel
 import okio.IOException
 
 class MediaSearchPagingSource(
     val tmdbApi: TmdbApiService,
     val query: String
-) : PagingSource<Int, Media>() {
+) : PagingSource<Int, MediaModel>() {
     override suspend fun load(
         params: LoadParams<Int>
-    ): LoadResult<Int, Media> {
+    ): LoadResult<Int, MediaModel> {
         try {
             // Start refresh at page 1 if undefined.
             val nextPageNumber = params.key ?: 1
@@ -32,7 +32,7 @@ class MediaSearchPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Media>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, MediaModel>): Int? {
         // Try to find the page key of the closest page to anchorPosition from
         // either the prevKey or the nextKey; you need to handle nullability
         // here.

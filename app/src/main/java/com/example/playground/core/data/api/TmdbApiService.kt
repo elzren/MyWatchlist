@@ -1,6 +1,6 @@
 package com.example.playground.core.data.api
 
-import com.example.playground.core.domain.model.Media
+import com.example.playground.core.domain.model.MediaModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 import com.example.playground.core.domain.model.MediaResponse
@@ -46,5 +46,5 @@ interface TmdbApiService {
     suspend fun getMediaSearchResults(
         @Query("query") query: String,
         @Query("page") page: Int = 1
-    ): MediaResponse<Media>
+    ): MediaResponse<MediaModel>
 }

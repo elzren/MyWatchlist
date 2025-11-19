@@ -86,6 +86,7 @@ fun MovieDetailScreenContent(
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     InfoRow(
+                        modifier = Modifier.padding(vertical = 8.dp),
                         infoList = listOf(
                             "Movie",
                             movieDetail.releaseDate.substringBefore('-'),

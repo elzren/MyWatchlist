@@ -3,12 +3,16 @@ package com.example.playground.search.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import androidx.paging.filter
+import androidx.paging.map
+import com.example.playground.core.presentation.mapper.asMedia
 import com.example.playground.search.domain.repository.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,7 +42,16 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
 
     private fun searchMedia(query: String) {
         val searchResults =
-            searchRepository.getMediaSearchResults(query).cachedIn(viewModelScope)
+            searchRepository.getMediaSearchResults(query)
+                .map { pagingData ->
+                    pagingData
+                        .filter { mediaModel ->
+                            mediaModel.mediaType == "movie" || mediaModel.mediaType == "tv"
+                        }
+                        .map { mediaModel -> mediaModel.asMedia() }
+                }
+                .cachedIn(viewModelScope)
+
         _uiState.update { currentState -> currentState.copy(searchResults = searchResults) }
     }
 }

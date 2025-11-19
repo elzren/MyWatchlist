@@ -88,6 +88,7 @@ fun ShowDetailScreenContent(
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     InfoRow(
+                        modifier = Modifier.padding(vertical = 8.dp),
                         infoList = listOf(
                             "Tv",
                             showDetail.firstAirDate.substringBefore('-'),
