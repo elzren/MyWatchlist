@@ -2,6 +2,7 @@ package com.example.playground.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playground.core.presentation.mapper.userMessage
 import com.example.playground.core.utils.DataResult
 import com.example.playground.home.domain.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,12 +35,12 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                         )
 
                         is DataResult.Success -> currentState.copy(
-                            trendingMovies = result.data ?: emptyList(),
+                            trendingMovies = result.data,
                             isTrendingMoviesLoading = false,
                         )
 
                         is DataResult.Error -> currentState.copy(
-                            errorMessage = result.error,
+                            errorMessage = result.error.userMessage(),
                             isTrendingMoviesLoading = false
                         )
                     }
@@ -59,12 +60,12 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                         )
 
                         is DataResult.Success -> currentState.copy(
-                            trendingShows = result.data ?: emptyList(),
+                            trendingShows = result.data,
                             isTrendingShowsLoading = false,
                         )
 
                         is DataResult.Error -> currentState.copy(
-                            errorMessage = result.error,
+                            errorMessage = result.error.userMessage(),
                             isTrendingShowsLoading = false
                         )
                     }
@@ -84,12 +85,12 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                         )
 
                         is DataResult.Success -> currentState.copy(
-                            popularMovies = result.data ?: emptyList(),
+                            popularMovies = result.data,
                             isPopularMoviesLoading = false,
                         )
 
                         is DataResult.Error -> currentState.copy(
-                            errorMessage = result.error,
+                            errorMessage = result.error.userMessage(),
                             isPopularMoviesLoading = false
                         )
                     }
@@ -109,12 +110,12 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                         )
 
                         is DataResult.Success -> currentState.copy(
-                            popularShows = result.data ?: emptyList(),
+                            popularShows = result.data,
                             isPopularShowsLoading = false,
                         )
 
                         is DataResult.Error -> currentState.copy(
-                            errorMessage = result.error,
+                            errorMessage = result.error.userMessage(),
                             isPopularShowsLoading = false
                         )
                     }

@@ -17,7 +17,7 @@ class MediaDetailRepositoryImp @Inject constructor(private val tmdbApi: TmdbApiS
                 val detail = tmdbApi.getMovieDetail(movieId)
                 emit(DataResult.Success(detail))
             } catch (e: Exception) {
-                emit(DataResult.Error(e.message ?: "Unknown error occurred"))
+                emit(DataResult.Error(e))
             }
         }
     }
@@ -29,7 +29,7 @@ class MediaDetailRepositoryImp @Inject constructor(private val tmdbApi: TmdbApiS
                 val detail = tmdbApi.getShowDetail(showId)
                 emit(DataResult.Success(detail))
             } catch (e: Exception) {
-                emit(DataResult.Error(e.message ?: "Unknown error occurred"))
+                emit(DataResult.Error(e))
             }
         }
     }

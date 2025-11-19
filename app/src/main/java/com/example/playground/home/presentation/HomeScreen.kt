@@ -60,19 +60,21 @@ fun HomeScreen(
             .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
     ) { padding ->
         Box(modifier = Modifier.padding(padding)) {
-            if (homeUiState.errorMessage != null) {
-                CenterAlignedBox {
-                    Text(text = "Error: " + homeUiState.errorMessage)
+            with(homeUiState) {
+                if (errorMessage != null) {
+                    CenterAlignedBox {
+                        Text(text = stringResource(errorMessage))
+                    }
+                } else if (isLoading) {
+                    CenterAlignedBox {
+                        CircularProgressIndicator()
+                    }
+                } else {
+                    HomeScreenContent(
+                        homeUiState = this,
+                        navActionManager = navActionManager
+                    )
                 }
-            } else if (homeUiState.isLoading) {
-                CenterAlignedBox {
-                    CircularProgressIndicator()
-                }
-            } else {
-                HomeScreenContent(
-                    homeUiState = homeUiState,
-                    navActionManager = navActionManager
-                )
             }
         }
     }

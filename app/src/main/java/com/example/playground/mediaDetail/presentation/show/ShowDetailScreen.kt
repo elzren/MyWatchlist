@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.playground.core.presentation.composables.CenterAlignedBox
@@ -47,7 +48,7 @@ fun ShowDetailScreen(
     with(showDetailUiState) {
         if (errorMessage != null) {
             CenterAlignedBox {
-                Text(text = "Error: $errorMessage")
+                Text(text = stringResource(errorMessage))
             }
         } else if (showDetail == null) {
             CenterAlignedBox {

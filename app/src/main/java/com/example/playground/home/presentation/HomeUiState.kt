@@ -1,5 +1,6 @@
 package com.example.playground.home.presentation
 
+import androidx.annotation.StringRes
 import com.example.playground.home.domain.model.Movie
 import com.example.playground.home.domain.model.Show
 
@@ -12,7 +13,7 @@ data class HomeUiState(
     val isTrendingShowsLoading: Boolean = false,
     val isPopularMoviesLoading: Boolean = false,
     val isPopularShowsLoading: Boolean = false,
-    val errorMessage: String? = null
+    @param:StringRes val errorMessage: Int? = null
 ) {
     val isLoading: Boolean
         get() {     // custom getter gets called whenever property is accessed

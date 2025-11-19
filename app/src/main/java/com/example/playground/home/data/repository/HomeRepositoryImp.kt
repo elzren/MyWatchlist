@@ -17,7 +17,7 @@ class HomeRepositoryImp @Inject constructor(private val tmdbApi: TmdbApiService)
                 val moviesList = tmdbApi.getTrendingMoviesToday()
                 emit(DataResult.Success(moviesList.results))
             } catch (e: Exception) {
-                emit(DataResult.Error(e.message ?: "Unknown error occurred"))
+                emit(DataResult.Error(e))
             }
         }
     }
@@ -29,7 +29,7 @@ class HomeRepositoryImp @Inject constructor(private val tmdbApi: TmdbApiService)
                 val showsList = tmdbApi.getTrendingShowsToday()
                 emit(DataResult.Success(showsList.results))
             } catch (e: Exception) {
-                emit(DataResult.Error(e.message ?: "Unknown error occurred"))
+                emit(DataResult.Error(e))
             }
         }
     }
@@ -41,7 +41,7 @@ class HomeRepositoryImp @Inject constructor(private val tmdbApi: TmdbApiService)
                 val moviesList = tmdbApi.getPopularMovies()
                 emit(DataResult.Success(moviesList.results))
             } catch (e: Exception) {
-                emit(DataResult.Error(e.message ?: "Unknown error occurred"))
+                emit(DataResult.Error(e))
             }
         }
     }
@@ -53,7 +53,7 @@ class HomeRepositoryImp @Inject constructor(private val tmdbApi: TmdbApiService)
                 val showsList = tmdbApi.getPopularShows()
                 emit(DataResult.Success(showsList.results))
             } catch (e: Exception) {
-                emit(DataResult.Error(e.message ?: "Unknown error occurred"))
+                emit(DataResult.Error(e))
             }
         }
     }

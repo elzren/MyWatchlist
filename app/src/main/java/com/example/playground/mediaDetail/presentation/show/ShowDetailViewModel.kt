@@ -2,6 +2,7 @@ package com.example.playground.mediaDetail.presentation.show
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playground.core.presentation.mapper.userMessage
 import com.example.playground.core.utils.DataResult
 import com.example.playground.mediaDetail.domain.repository.MediaDetailRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +34,7 @@ class ShowDetailViewModel @Inject constructor(val mediaDetailRepo: MediaDetailRe
                         )
 
                         is DataResult.Error -> currentState.copy(
-                            errorMessage = result.error,
+                            errorMessage = result.error.userMessage(),
                             isLoading = false
                         )
                     }
