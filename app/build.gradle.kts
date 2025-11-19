@@ -84,4 +84,7 @@ dependencies {
     // Navigation
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+
+    // Paging
+    implementation(libs.paging.compose)
 }

@@ -7,6 +7,8 @@ import com.example.playground.home.data.repository.HomeRepositoryImp
 import com.example.playground.home.domain.repository.HomeRepository
 import com.example.playground.mediaDetail.data.repository.MediaDetailRepositoryImp
 import com.example.playground.mediaDetail.domain.repository.MediaDetailRepository
+import com.example.playground.search.data.repository.SearchRepositoryImp
+import com.example.playground.search.domain.repository.SearchRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,6 +45,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMediaRepository(tmdbApi: TmdbApiService): MediaDetailRepository =
+    fun provideMediaDetailRepository(tmdbApi: TmdbApiService): MediaDetailRepository =
         MediaDetailRepositoryImp(tmdbApi)
+
+    @Provides
+    @Singleton
+    fun provideSearchRepository(tmdbApi: TmdbApiService): SearchRepository =
+        SearchRepositoryImp(tmdbApi)
 }

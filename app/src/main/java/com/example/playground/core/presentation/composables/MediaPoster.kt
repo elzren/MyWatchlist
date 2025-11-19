@@ -32,3 +32,16 @@ fun MediaPoster(
             .clip(RoundedCornerShape(8.dp))
     )
 }
+
+@Composable
+fun MediaPosterSmall(
+    posterUrl: String?,
+    modifier: Modifier = Modifier,
+) {
+    MediaPoster(
+        posterUrl = posterUrl,
+        modifier = modifier,
+        width = 110.dp,
+        height = 165.dp
+    )
+}
