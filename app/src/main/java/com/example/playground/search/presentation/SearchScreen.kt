@@ -25,6 +25,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -35,13 +36,13 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.playground.R
 import com.example.playground.core.domain.model.Media
+import com.example.playground.core.presentation.composables.BackIconButton
 import com.example.playground.core.presentation.composables.CenteredBox
+import com.example.playground.core.presentation.composables.CloseIconButton
 import com.example.playground.core.presentation.composables.MediaPosterSmall
 import com.example.playground.core.presentation.mapper.userMessage
 import com.example.playground.core.presentation.navigation.NavActionManager
 import com.example.playground.core.utils.toTmdbImgUrl
-import com.example.playground.core.presentation.composables.BackIconButton
-import com.example.playground.core.presentation.composables.CloseIconButton
 import com.example.playground.mediaDetail.presentation.composables.InfoRow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -200,6 +201,7 @@ fun SearchItem(media: Media, onClick: () -> Unit, modifier: Modifier = Modifier)
             .fillMaxWidth()
             .padding(bottom = 16.dp)
             .clickable(onClick = { onClick() })
+            .clip(RoundedCornerShape(8.dp))
     )
     {
         MediaPosterSmall(
