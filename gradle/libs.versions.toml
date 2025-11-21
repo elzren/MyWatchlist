@@ -16,6 +16,7 @@ coil = "3.3.0"
 navigation-compose = "2.9.6"
 kotlinxSerialization="1.9.0"
 pagingCompose = "3.3.6"
+room = "2.8.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,6 +48,10 @@ navigation-compose = {module = "androidx.navigation:navigation-compose", version
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 
 paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
+
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

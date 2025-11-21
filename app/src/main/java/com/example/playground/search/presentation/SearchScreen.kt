@@ -1,9 +1,6 @@
 package com.example.playground.search.presentation
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
@@ -25,25 +21,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.playground.R
-import com.example.playground.core.domain.model.Media
 import com.example.playground.core.presentation.composables.BackIconButton
 import com.example.playground.core.presentation.composables.CenteredBox
 import com.example.playground.core.presentation.composables.CloseIconButton
-import com.example.playground.core.presentation.composables.MediaPosterSmall
+import com.example.playground.core.presentation.composables.HorizontalMediaItem
 import com.example.playground.core.presentation.mapper.userMessage
 import com.example.playground.core.presentation.navigation.NavActionManager
-import com.example.playground.core.utils.toTmdbImgUrl
-import com.example.playground.mediaDetail.presentation.composables.InfoRow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -108,7 +98,10 @@ fun MainSearchBar(
                     },
                     trailingIcon = {
                         if (isSearchActive && searchUiState.query.isNotEmpty()) {
-                            CloseIconButton(onClick = { viewModel.resetQuery() }, description = R.string.delete)
+                            CloseIconButton(
+                                onClick = { viewModel.resetQuery() },
+                                description = R.string.delete
+                            )
                         }
                     },
                 )
@@ -127,13 +120,24 @@ fun MainSearchBar(
                         items(searchResults.itemCount) { index ->
                             val media = searchResults[index]
                             if (media != null) {
-                                SearchItem(media = media, onClick = {
-                                    if (media.mediaType == "movie") navActionManager.toMovieDetail(
-                                        media.id
-                                    ) else navActionManager.toShowDetail(
-                                        media.id
+                                with(media) {
+                                    HorizontalMediaItem(
+                                        mediaType = mediaType,
+                                        title = title,
+                                        posterPath = posterPath,
+                                        overview = overview,
+                                        releaseDate = releaseDate,
+                                        originalLanguage = originalLanguage,
+                                        voteAverage = voteAverage,
+                                        onClick = {
+                                            if (mediaType == "movie") navActionManager.toMovieDetail(
+                                                id
+                                            ) else navActionManager.toShowDetail(
+                                                id
+                                            )
+                                        },
                                     )
-                                })
+                                }
                             }
                         }
                     }
@@ -190,53 +194,5 @@ fun MainSearchBar(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun SearchItem(media: Media, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp)
-            .clickable(onClick = { onClick() })
-            .clip(RoundedCornerShape(8.dp))
-    )
-    {
-        MediaPosterSmall(
-            posterUrl = media.posterPath?.toTmdbImgUrl(),
-        )
-        Column(
-            modifier = Modifier.padding(start = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(
-                text = media.title,
-                fontSize = 20.sp,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            InfoRow(
-                color = MaterialTheme.colorScheme.outline,
-                infoList = listOf(
-                    media.mediaType.replaceFirstChar {
-                        if (it.isLowerCase()) it.titlecase() else it.toString()
-                    },
-                    media.releaseDate.substringBefore('-'),
-                    media.originalLanguage.uppercase(),
-                    media.voteAverage.toString().substring(0, 3),
-                )
-            )
-            Text(
-                text = media.overview,
-                fontSize = 14.sp,
-                lineHeight = 18.sp,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 2,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-
     }
 }

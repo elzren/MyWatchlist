@@ -4,13 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +28,7 @@ import com.example.playground.mediaDetail.presentation.composables.MediaDetailSc
 import com.example.playground.mediaDetail.presentation.composables.MediaTitle
 import com.example.playground.mediaDetail.presentation.composables.PosterRow
 import com.example.playground.mediaDetail.presentation.composables.Synopsis
+import com.example.playground.mediaDetail.presentation.composables.WatchlistButton
 
 @Composable
 fun MovieDetailScreen(
@@ -42,6 +39,7 @@ fun MovieDetailScreen(
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.getMovieDetail(movieId)
+        viewModel.getWatchlistStatus(movieId)
     }
     val movieDetailUiState by viewModel.uiState.collectAsState()
 
@@ -58,6 +56,7 @@ fun MovieDetailScreen(
             MovieDetailScreenContent(
                 movieDetail = movieDetail,
                 navActionManager = navActionManager,
+                isInWatchlist = isInWatchlist,
                 modifier = modifier,
             )
         }
@@ -68,7 +67,9 @@ fun MovieDetailScreen(
 fun MovieDetailScreenContent(
     movieDetail: MovieDetail,
     navActionManager: NavActionManager,
-    modifier: Modifier = Modifier
+    isInWatchlist: Boolean,
+    modifier: Modifier = Modifier,
+    viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
     MediaDetailScaffold(title = movieDetail.title, navActionManager = navActionManager) { padding ->
         Column(
@@ -94,21 +95,27 @@ fun MovieDetailScreenContent(
                             movieDetail.voteAverage.toString().substring(0, 3),
                         )
                     )
-                    Button(
-                        onClick = {},
-                        shape = RoundedCornerShape(8.dp)
-                    ) { Text(text = "Add to Watchlist") }
+                    WatchlistButton(
+                        isInWatchlist = isInWatchlist,
+                        onClick = {
+                            if (isInWatchlist) {
+                                viewModel.removeFromWatchlist(movieDetail.id)
+                            } else {
+                                viewModel.addToWatchlist(movieDetail)
+                            }
+                        }
+                    )
                 }
             }
             GenresRow(genres = movieDetail.genres)
             Synopsis(synopsis = movieDetail.overview)
 
             // to check scroll behavior
-            Box(
-                modifier = Modifier
-                    .height(1000.dp)
-                    .fillMaxWidth()
-            )
+//            Box(
+//                modifier = Modifier
+//                    .height(1000.dp)
+//                    .fillMaxWidth()
+//            )
         }
     }
 }

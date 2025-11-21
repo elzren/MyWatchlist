@@ -6,5 +6,6 @@ import com.example.playground.mediaDetail.domain.model.ShowDetail
 data class ShowDetailUiState(
     val showDetail: ShowDetail? = null,
     val isLoading: Boolean = false,
-    @param:StringRes val errorMessage: Int? = null
+    @param:StringRes val errorMessage: Int? = null,
+    val isInWatchlist: Boolean = false
 )

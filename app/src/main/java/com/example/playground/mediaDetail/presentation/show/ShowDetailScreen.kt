@@ -4,13 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -33,6 +29,7 @@ import com.example.playground.mediaDetail.presentation.composables.MediaDetailSc
 import com.example.playground.mediaDetail.presentation.composables.MediaTitle
 import com.example.playground.mediaDetail.presentation.composables.PosterRow
 import com.example.playground.mediaDetail.presentation.composables.Synopsis
+import com.example.playground.mediaDetail.presentation.composables.WatchlistButton
 
 @Composable
 fun ShowDetailScreen(
@@ -43,6 +40,7 @@ fun ShowDetailScreen(
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.getShowDetail(showId)
+        viewModel.getWatchlistStatus(showId)
     }
     val showDetailUiState by viewModel.uiState.collectAsState()
 
@@ -59,6 +57,7 @@ fun ShowDetailScreen(
             ShowDetailScreenContent(
                 showDetail = showDetail,
                 navActionManager = navActionManager,
+                isInWatchlist = isInWatchlist,
                 modifier = modifier,
             )
         }
@@ -70,7 +69,9 @@ fun ShowDetailScreen(
 fun ShowDetailScreenContent(
     showDetail: ShowDetail,
     navActionManager: NavActionManager,
-    modifier: Modifier = Modifier
+    isInWatchlist: Boolean,
+    modifier: Modifier = Modifier,
+    viewModel: ShowDetailViewModel = hiltViewModel()
 ) {
     MediaDetailScaffold(title = showDetail.name, navActionManager = navActionManager) { padding ->
         Column(
@@ -96,21 +97,27 @@ fun ShowDetailScreenContent(
                             showDetail.voteAverage.toString().substring(0, 3),
                         )
                     )
-                    Button(
-                        onClick = {},
-                        shape = RoundedCornerShape(8.dp)
-                    ) { Text(text = "Add to Watchlist") }
+                    WatchlistButton(
+                        isInWatchlist = isInWatchlist,
+                        onClick = {
+                            if (isInWatchlist) {
+                                viewModel.removeFromWatchlist(showDetail.id)
+                            } else {
+                                viewModel.addToWatchlist(showDetail)
+                            }
+                        }
+                    )
                 }
             }
             GenresRow(genres = showDetail.genres)
             Synopsis(synopsis = showDetail.overview)
 
             // to check scroll behavior
-            Box(
-                modifier = Modifier
-                    .height(1000.dp)
-                    .fillMaxWidth()
-            )
+//            Box(
+//                modifier = Modifier
+//                    .height(1000.dp)
+//                    .fillMaxWidth()
+//            )
         }
     }
 }

@@ -6,5 +6,6 @@ import com.example.playground.mediaDetail.domain.model.MovieDetail
 data class MovieDetailUiState(
     val movieDetail: MovieDetail? = null,
     val isLoading: Boolean = false,
-    @param:StringRes val errorMessage: Int? = null
+    @param:StringRes val errorMessage: Int? = null,
+    val isInWatchlist: Boolean = false
 )
