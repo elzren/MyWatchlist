@@ -1,7 +1,9 @@
 package com.example.playground.mediaDetail.presentation.composables
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +18,7 @@ fun InfoRow(
     color: Color = MaterialTheme.colorScheme.onSurfaceVariant
 ) {
     Row(
-        modifier = modifier
+        modifier = modifier.horizontalScroll(rememberScrollState())
     ) {
 
         infoList.forEachIndexed { index, info ->
