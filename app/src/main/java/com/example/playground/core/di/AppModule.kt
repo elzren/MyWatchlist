@@ -1,9 +1,15 @@
 package com.example.playground.core.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.example.playground.core.data.api.TmdbApiKeyInterceptor
 import com.example.playground.core.data.api.TmdbApiService
+import com.example.playground.core.data.repository.PreferencesRepositoryImp
+import com.example.playground.core.domain.repository.PreferencesRepository
 import com.example.playground.core.utils.Constants.DATABASE_NAME
 import com.example.playground.core.utils.Constants.TMDB_BASE_URL
 import com.example.playground.home.data.repository.HomeRepositoryImp
@@ -49,6 +55,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun providePreferencesDatastore(@ApplicationContext context: Context): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create { context.preferencesDataStoreFile("preferences") }
+    }
+
+    @Provides
+    @Singleton
     fun provideWatchlistDatabase(@ApplicationContext context: Context): WatchlistDatabase {
         return Room.databaseBuilder(
             context,
@@ -62,6 +74,11 @@ object AppModule {
     fun provideWatchlistDao(watchlistDatabase: WatchlistDatabase): WatchlistDao {
         return watchlistDatabase.getWatchlistDao()
     }
+
+    @Provides
+    @Singleton
+    fun providePreferencesRepository(dataStore: DataStore<Preferences>): PreferencesRepository =
+        PreferencesRepositoryImp(dataStore)
 
     @Provides
     @Singleton
