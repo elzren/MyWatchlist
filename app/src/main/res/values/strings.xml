@@ -11,4 +11,12 @@
     <string name="no_internet_connection">No internet connection.</string>
     <string name="unknown_error">An unknown error has occurred.</string>
     <string name="no_results_found">No results found.</string>
+    <string name="no_app_found_for_this_action">No app found for this action</string>
+    <string name="copied">Copied</string>
+    <string name="theme">Theme</string>
+    <string name="theme_system">Follow system</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="github_repository">GitHub Repository</string>
+    <string name="version">Version</string>
 </resources>

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.playground.core.presentation.composables.CenteredBox
 import com.example.playground.core.presentation.navigation.NavActionManager
-import com.example.playground.core.utils.toTmdbImgUrl
+import com.example.playground.core.utils.StringUtils.toTmdbImgUrl
 import com.example.playground.mediaDetail.domain.model.MovieDetail
 import com.example.playground.mediaDetail.presentation.composables.GenresRow
 import com.example.playground.mediaDetail.presentation.composables.InfoRow

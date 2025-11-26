@@ -40,7 +40,7 @@ import com.example.playground.core.presentation.composables.CenteredBox
 import com.example.playground.core.presentation.composables.ScaffoldWithTopAppBar
 import com.example.playground.core.presentation.navigation.NavActionManager
 import com.example.playground.core.utils.Constants
-import com.example.playground.core.utils.toTmdbImgUrl
+import com.example.playground.core.utils.StringUtils.toTmdbImgUrl
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
