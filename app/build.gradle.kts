@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.playground"
+    namespace = "com.elzren.mywatchlist"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.playground"
+        applicationId = "com.elzren.mywatchlist"
         minSdk = 24
         targetSdk = 36
         versionCode = 10

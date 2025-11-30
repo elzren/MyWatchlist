@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Playground</string>
+    <string name="app_name">MyWatchlist</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="watchlist">Watchlist</string>

@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Playground"
+rootProject.name = "MyWatchlist"
 include(":app")
  
