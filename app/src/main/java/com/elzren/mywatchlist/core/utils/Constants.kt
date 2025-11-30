@@ -17,6 +17,6 @@ object Constants {
 
     val THEME_KEY = stringPreferencesKey("theme")
 
-    const val GITHUB_REPO_URL = "https://github.com/elzren"
+    const val GITHUB_REPO_URL = "https://github.com/elzren/MyWatchlist"
 
 }
