@@ -66,7 +66,7 @@ object AppModule {
             context,
             WatchlistDatabase::class.java,
             DATABASE_NAME
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides

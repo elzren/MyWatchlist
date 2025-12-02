@@ -80,8 +80,8 @@ fun MovieDetailScreenContent(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Box {
-                MediaBanner(bannerUrl = movieDetail.backdropPath.toTmdbImgUrl("original"))
-                PosterRow(posterUrl = movieDetail.posterPath.toTmdbImgUrl()) {
+                MediaBanner(bannerUrl = movieDetail.backdropPath?.toTmdbImgUrl("original"))
+                PosterRow(posterUrl = movieDetail.posterPath?.toTmdbImgUrl()) {
                     MediaTitle(
                         title = movieDetail.title,
                         modifier = Modifier.padding(top = 16.dp)

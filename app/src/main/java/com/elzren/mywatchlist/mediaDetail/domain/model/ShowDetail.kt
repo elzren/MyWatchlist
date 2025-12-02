@@ -6,7 +6,7 @@ data class ShowDetail(
     @SerializedName("adult")
     val adult: Boolean,
     @SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerializedName("created_by")
     val createdBy: List<CreatedBy>,
     @SerializedName("episode_run_time")
@@ -48,7 +48,7 @@ data class ShowDetail(
     @SerializedName("popularity")
     val popularity: Double,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("production_companies")
     val productionCompanies: List<ProductionCompany>,
     @SerializedName("production_countries")

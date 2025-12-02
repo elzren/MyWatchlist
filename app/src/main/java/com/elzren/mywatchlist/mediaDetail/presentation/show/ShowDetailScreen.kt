@@ -82,8 +82,8 @@ fun ShowDetailScreenContent(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Box {
-                MediaBanner(bannerUrl = showDetail.backdropPath.toTmdbImgUrl("original"))
-                PosterRow(posterUrl = showDetail.posterPath.toTmdbImgUrl()) {
+                MediaBanner(bannerUrl = showDetail.backdropPath?.toTmdbImgUrl("original"))
+                PosterRow(posterUrl = showDetail.posterPath?.toTmdbImgUrl()) {
                     MediaTitle(
                         title = showDetail.name,
                         modifier = Modifier.padding(top = 16.dp)

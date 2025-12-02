@@ -91,7 +91,7 @@ fun HomeScreenContent(
             Heading(title = "Trending Movies")
             HorizontalFeed(items = homeUiState.trendingMovies, itemContent = { movie ->
                 HorizontalFeedItem(
-                    posterUrl = movie.posterPath.toTmdbImgUrl(),
+                    posterUrl = movie.posterPath?.toTmdbImgUrl(),
                     title = movie.title,
                     onClick = { navActionManager.toMovieDetail(movie.id) }
                 )
@@ -102,7 +102,7 @@ fun HomeScreenContent(
             Heading(title = "Trending Shows")
             HorizontalFeed(items = homeUiState.trendingShows, itemContent = { show ->
                 HorizontalFeedItem(
-                    posterUrl = show.posterPath.toTmdbImgUrl(),
+                    posterUrl = show.posterPath?.toTmdbImgUrl(),
                     title = show.name,
                     onClick = { navActionManager.toShowDetail(show.id) }
                 )
@@ -113,7 +113,7 @@ fun HomeScreenContent(
             Heading(title = "Popular Movies")
             HorizontalFeed(items = homeUiState.popularMovies, itemContent = { movie ->
                 HorizontalFeedItem(
-                    posterUrl = movie.posterPath.toTmdbImgUrl(),
+                    posterUrl = movie.posterPath?.toTmdbImgUrl(),
                     title = movie.title,
                     onClick = { navActionManager.toMovieDetail(movie.id) }
                 )
@@ -124,7 +124,7 @@ fun HomeScreenContent(
             Heading(title = "Popular Shows")
             HorizontalFeed(items = homeUiState.popularShows, itemContent = { show ->
                 HorizontalFeedItem(
-                    posterUrl = show.posterPath.toTmdbImgUrl(),
+                    posterUrl = show.posterPath?.toTmdbImgUrl(),
                     title = show.name,
                     onClick = { navActionManager.toShowDetail(show.id) }
                 )
@@ -162,7 +162,7 @@ fun <T> HorizontalFeed(
 
 @Composable
 fun HorizontalFeedItem(
-    posterUrl: String,
+    posterUrl: String?,
     modifier: Modifier = Modifier,
     title: String? = null,
     onClick: () -> Unit

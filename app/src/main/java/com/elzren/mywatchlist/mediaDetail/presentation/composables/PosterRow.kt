@@ -12,7 +12,7 @@ import com.elzren.mywatchlist.core.presentation.composables.MediaPoster
 
 @Composable
 fun PosterRow(
-    posterUrl: String,
+    posterUrl: String?,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
