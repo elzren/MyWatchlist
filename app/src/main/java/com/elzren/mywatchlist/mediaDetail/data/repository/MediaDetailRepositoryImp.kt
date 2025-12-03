@@ -4,6 +4,7 @@ import com.elzren.mywatchlist.core.data.api.TmdbApiService
 import com.elzren.mywatchlist.core.utils.DataResult
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
+import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
 import com.elzren.mywatchlist.mediaDetail.domain.repository.MediaDetailRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -33,4 +34,30 @@ class MediaDetailRepositoryImp @Inject constructor(private val tmdbApi: TmdbApiS
             }
         }
     }
+
+    override suspend fun getMovieCast(movieId: Int): Flow<DataResult<List<Cast>>> {
+        return flow {
+            emit(DataResult.Loading())
+            try {
+                val credit = tmdbApi.getMovieCredit(movieId)
+                emit(DataResult.Success(credit.cast))
+            } catch (e: Exception) {
+                emit(DataResult.Error(e))
+            }
+        }
+    }
+
+    override suspend fun getShowCast(showId: Int): Flow<DataResult<List<Cast>>> {
+        return flow {
+            emit(DataResult.Loading())
+            try {
+                val credit = tmdbApi.getShowCredit(showId)
+                emit(DataResult.Success(credit.cast))
+            } catch (e: Exception) {
+                emit(DataResult.Error(e))
+            }
+        }
+    }
+
+
 }

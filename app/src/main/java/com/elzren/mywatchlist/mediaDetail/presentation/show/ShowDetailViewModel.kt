@@ -68,4 +68,27 @@ class ShowDetailViewModel @Inject constructor(
            }
         }
     }
+
+    fun getShowCast(showId: Int) {
+        viewModelScope.launch {
+            mediaDetailRepo.getShowCast(showId).collect { result ->
+                _uiState.update { currentState ->
+                    when (result) {
+                        is DataResult.Loading -> currentState.copy(
+                            isCastLoading = true,
+                        )
+
+                        is DataResult.Success -> currentState.copy(
+                            showCast = result.data,
+                            isCastLoading = false
+                        )
+
+                        is DataResult.Error -> currentState.copy(
+                            isCastLoading = false
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

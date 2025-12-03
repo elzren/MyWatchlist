@@ -1,11 +1,7 @@
 package com.elzren.mywatchlist.home.presentation
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,9 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -37,6 +30,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.elzren.mywatchlist.R
 import com.elzren.mywatchlist.core.presentation.composables.CenteredBox
+import com.elzren.mywatchlist.core.presentation.composables.Heading
+import com.elzren.mywatchlist.core.presentation.composables.HorizontalFeed
 import com.elzren.mywatchlist.core.presentation.composables.ScaffoldWithTopAppBar
 import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 import com.elzren.mywatchlist.core.utils.Constants
@@ -88,7 +83,7 @@ fun HomeScreenContent(
 ) {
     LazyColumn(modifier = modifier) {
         item {
-            Heading(title = "Trending Movies")
+            Heading(title = "Trending Movies", modifier = Modifier.padding(top = 8.dp))
             HorizontalFeed(items = homeUiState.trendingMovies, itemContent = { movie ->
                 HorizontalFeedItem(
                     posterUrl = movie.posterPath?.toTmdbImgUrl(),
@@ -99,7 +94,7 @@ fun HomeScreenContent(
         }
 
         item {
-            Heading(title = "Trending Shows")
+            Heading(title = "Trending Shows", modifier = Modifier.padding(top = 8.dp))
             HorizontalFeed(items = homeUiState.trendingShows, itemContent = { show ->
                 HorizontalFeedItem(
                     posterUrl = show.posterPath?.toTmdbImgUrl(),
@@ -110,7 +105,7 @@ fun HomeScreenContent(
         }
 
         item {
-            Heading(title = "Popular Movies")
+            Heading(title = "Popular Movies", modifier = Modifier.padding(top = 8.dp))
             HorizontalFeed(items = homeUiState.popularMovies, itemContent = { movie ->
                 HorizontalFeedItem(
                     posterUrl = movie.posterPath?.toTmdbImgUrl(),
@@ -121,7 +116,7 @@ fun HomeScreenContent(
         }
 
         item {
-            Heading(title = "Popular Shows")
+            Heading(title = "Popular Shows", modifier = Modifier.padding(top = 8.dp))
             HorizontalFeed(items = homeUiState.popularShows, itemContent = { show ->
                 HorizontalFeedItem(
                     posterUrl = show.posterPath?.toTmdbImgUrl(),
@@ -130,33 +125,6 @@ fun HomeScreenContent(
                 )
             })
         }
-    }
-}
-
-@Composable
-fun Heading(title: String, modifier: Modifier = Modifier) {
-    Column {
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = title,
-            modifier = modifier.padding(horizontal = 20.dp),
-            style = MaterialTheme.typography.titleLarge
-        )
-    }
-}
-
-@Composable
-fun <T> HorizontalFeed(
-    items: List<T>,
-    itemContent: @Composable (LazyItemScope.(T) -> Unit),
-    modifier: Modifier = Modifier
-) {
-    LazyRow(
-        contentPadding = PaddingValues(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        modifier = modifier
-    ) {
-        items(items = items, itemContent = itemContent)
     }
 }
 

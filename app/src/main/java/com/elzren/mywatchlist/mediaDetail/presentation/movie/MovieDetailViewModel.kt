@@ -68,6 +68,29 @@ class MovieDetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun getMovieCast(movieId: Int) {
+        viewModelScope.launch {
+            mediaDetailRepo.getMovieCast(movieId).collect { result ->
+                _uiState.update { currentState ->
+                    when (result) {
+                        is DataResult.Loading -> currentState.copy(
+                            isCastLoading = true,
+                        )
+
+                        is DataResult.Success -> currentState.copy(
+                            movieCast = result.data,
+                            isCastLoading = false
+                        )
+
+                        is DataResult.Error -> currentState.copy(
+                            isCastLoading = false
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 

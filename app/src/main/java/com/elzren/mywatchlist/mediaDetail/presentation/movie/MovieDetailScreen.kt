@@ -17,10 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.elzren.mywatchlist.R
 import com.elzren.mywatchlist.core.presentation.composables.CenteredBox
+import com.elzren.mywatchlist.core.presentation.composables.Heading
+import com.elzren.mywatchlist.core.presentation.composables.HorizontalFeed
 import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
+import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
+import com.elzren.mywatchlist.mediaDetail.presentation.composables.CastItem
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.GenresRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.InfoRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaBanner
@@ -40,6 +45,7 @@ fun MovieDetailScreen(
     LaunchedEffect(key1 = Unit) {
         viewModel.getMovieDetail(movieId)
         viewModel.getWatchlistStatus(movieId)
+        viewModel.getMovieCast(movieId)
     }
     val movieDetailUiState by viewModel.uiState.collectAsState()
 
@@ -57,6 +63,7 @@ fun MovieDetailScreen(
                 movieDetail = movieDetail,
                 navActionManager = navActionManager,
                 isInWatchlist = isInWatchlist,
+                movieCast = movieCast,
                 modifier = modifier,
             )
         }
@@ -68,6 +75,7 @@ fun MovieDetailScreenContent(
     movieDetail: MovieDetail,
     navActionManager: NavActionManager,
     isInWatchlist: Boolean,
+    movieCast: List<Cast>,
     modifier: Modifier = Modifier,
     viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
@@ -109,6 +117,20 @@ fun MovieDetailScreenContent(
             }
             GenresRow(genres = movieDetail.genres)
             Synopsis(synopsis = movieDetail.overview)
+
+            if (movieCast.isNotEmpty()) {
+                Column {
+                    Heading(title = stringResource(R.string.cast))
+                    HorizontalFeed(items = movieCast, itemContent = { cast ->
+                        CastItem(
+                            id = cast.id,
+                            profilePath = cast.profilePath,
+                            characterName = cast.character,
+                            playedBy = cast.name
+                        )
+                    })
+                }
+            }
 
             // to check scroll behavior
 //            Box(

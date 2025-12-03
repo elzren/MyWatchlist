@@ -18,10 +18,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.elzren.mywatchlist.R
 import com.elzren.mywatchlist.core.presentation.composables.CenteredBox
+import com.elzren.mywatchlist.core.presentation.composables.Heading
+import com.elzren.mywatchlist.core.presentation.composables.HorizontalFeed
 import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
+import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
+import com.elzren.mywatchlist.mediaDetail.presentation.composables.CastItem
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.GenresRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.InfoRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaBanner
@@ -41,6 +46,7 @@ fun ShowDetailScreen(
     LaunchedEffect(key1 = Unit) {
         viewModel.getShowDetail(showId)
         viewModel.getWatchlistStatus(showId)
+        viewModel.getShowCast(showId)
     }
     val showDetailUiState by viewModel.uiState.collectAsState()
 
@@ -58,6 +64,7 @@ fun ShowDetailScreen(
                 showDetail = showDetail,
                 navActionManager = navActionManager,
                 isInWatchlist = isInWatchlist,
+                showCast = showCast,
                 modifier = modifier,
             )
         }
@@ -70,6 +77,7 @@ fun ShowDetailScreenContent(
     showDetail: ShowDetail,
     navActionManager: NavActionManager,
     isInWatchlist: Boolean,
+    showCast: List<Cast>,
     modifier: Modifier = Modifier,
     viewModel: ShowDetailViewModel = hiltViewModel()
 ) {
@@ -111,6 +119,20 @@ fun ShowDetailScreenContent(
             }
             GenresRow(genres = showDetail.genres)
             Synopsis(synopsis = showDetail.overview)
+
+            if (showCast.isNotEmpty()) {
+                Column {
+                    Heading(title = stringResource(R.string.cast))
+                    HorizontalFeed(items = showCast, itemContent = { cast ->
+                        CastItem(
+                            id = cast.id,
+                            profilePath = cast.profilePath,
+                            characterName = cast.character,
+                            playedBy = cast.name
+                        )
+                    })
+                }
+            }
 
             // to check scroll behavior
 //            Box(

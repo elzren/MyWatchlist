@@ -19,4 +19,6 @@
     <string name="theme_dark">Dark</string>
     <string name="github_repository">GitHub Repository</string>
     <string name="version">Version</string>
+    <string name="cast">Cast</string>
+
 </resources>
