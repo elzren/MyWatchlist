@@ -91,6 +91,29 @@ class MovieDetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun getMovieRecommendations(movieId: Int) {
+        viewModelScope.launch {
+            mediaDetailRepo.getMovieRecommendations(movieId).collect { result ->
+                _uiState.update { currentState ->
+                    when (result) {
+                        is DataResult.Loading -> currentState.copy(
+                            isRecommendationsLoading = true,
+                        )
+
+                        is DataResult.Success -> currentState.copy(
+                            movieRecommendations = result.data,
+                            isRecommendationsLoading = false
+                        )
+
+                        is DataResult.Error -> currentState.copy(
+                            isRecommendationsLoading = false
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 

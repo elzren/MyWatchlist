@@ -91,4 +91,27 @@ class ShowDetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun getShowRecommendations(showId: Int) {
+        viewModelScope.launch {
+            mediaDetailRepo.getShowRecommendations(showId).collect { result ->
+                _uiState.update { currentState ->
+                    when (result) {
+                        is DataResult.Loading -> currentState.copy(
+                            isRecommendationsLoading = true,
+                        )
+
+                        is DataResult.Success -> currentState.copy(
+                            showRecommendations = result.data,
+                            isRecommendationsLoading = false
+                        )
+
+                        is DataResult.Error -> currentState.copy(
+                            isRecommendationsLoading = false
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

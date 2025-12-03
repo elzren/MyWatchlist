@@ -1,6 +1,8 @@
 package com.elzren.mywatchlist.mediaDetail.data.repository
 
 import com.elzren.mywatchlist.core.data.api.TmdbApiService
+import com.elzren.mywatchlist.core.domain.model.Media
+import com.elzren.mywatchlist.core.presentation.mapper.asMedia
 import com.elzren.mywatchlist.core.utils.DataResult
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
@@ -10,7 +12,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class MediaDetailRepositoryImp @Inject constructor(private val tmdbApi: TmdbApiService) : MediaDetailRepository {
+class MediaDetailRepositoryImp @Inject constructor(private val tmdbApi: TmdbApiService) :
+    MediaDetailRepository {
     override suspend fun getMovieDetail(movieId: Int): Flow<DataResult<MovieDetail>> {
         return flow {
             emit(DataResult.Loading())
@@ -53,6 +56,32 @@ class MediaDetailRepositoryImp @Inject constructor(private val tmdbApi: TmdbApiS
             try {
                 val credit = tmdbApi.getShowCredit(showId)
                 emit(DataResult.Success(credit.cast))
+            } catch (e: Exception) {
+                emit(DataResult.Error(e))
+            }
+        }
+    }
+
+    override suspend fun getMovieRecommendations(movieId: Int): Flow<DataResult<List<Media>>> {
+        return flow {
+            emit(DataResult.Loading())
+            try {
+                val res = tmdbApi.getMovieRecommendations(movieId)
+                val recommendations = res.results.map { it.asMedia() }
+                emit(DataResult.Success(recommendations))
+            } catch (e: Exception) {
+                emit(DataResult.Error(e))
+            }
+        }
+    }
+
+    override suspend fun getShowRecommendations(showId: Int): Flow<DataResult<List<Media>>> {
+        return flow {
+            emit(DataResult.Loading())
+            try {
+                val res = tmdbApi.getShowRecommendations(showId)
+                val recommendations = res.results.map { it.asMedia() }
+                emit(DataResult.Success(recommendations))
             } catch (e: Exception) {
                 emit(DataResult.Error(e))
             }

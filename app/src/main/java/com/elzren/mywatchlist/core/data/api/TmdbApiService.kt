@@ -58,4 +58,16 @@ interface TmdbApiService {
     suspend fun getShowCredit(
         @Path("showId") showId: Int
     ): Credit
+
+    @GET("movie/{movieId}/recommendations")
+    suspend fun getMovieRecommendations(
+        @Path("movieId") movieId: Int,
+        @Query("page") page: Int = 1
+    ): MediaResponse<MediaModel>
+
+    @GET("tv/{showId}/recommendations")
+    suspend fun getShowRecommendations(
+        @Path("showId") showId: Int,
+        @Query("page") page: Int = 1
+    ): MediaResponse<MediaModel>
 }

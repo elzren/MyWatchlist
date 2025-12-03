@@ -1,5 +1,6 @@
 package com.elzren.mywatchlist.mediaDetail.domain.repository
 
+import com.elzren.mywatchlist.core.domain.model.Media
 import com.elzren.mywatchlist.core.utils.DataResult
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
@@ -12,4 +13,8 @@ interface MediaDetailRepository {
 
     suspend fun getMovieCast(movieId: Int): Flow<DataResult<List<Cast>>>
     suspend fun getShowCast(showId: Int): Flow<DataResult<List<Cast>>>
+
+    suspend fun getMovieRecommendations(movieId: Int): Flow<DataResult<List<Media>>>
+    suspend fun getShowRecommendations(showId: Int): Flow<DataResult<List<Media>>>
+
 }

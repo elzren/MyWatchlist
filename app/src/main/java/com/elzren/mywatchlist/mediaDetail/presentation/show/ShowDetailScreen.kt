@@ -19,9 +19,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.elzren.mywatchlist.R
+import com.elzren.mywatchlist.core.domain.model.Media
 import com.elzren.mywatchlist.core.presentation.composables.CenteredBox
 import com.elzren.mywatchlist.core.presentation.composables.Heading
 import com.elzren.mywatchlist.core.presentation.composables.HorizontalFeed
+import com.elzren.mywatchlist.core.presentation.composables.MediaPosterClickable
 import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
@@ -47,6 +49,7 @@ fun ShowDetailScreen(
         viewModel.getShowDetail(showId)
         viewModel.getWatchlistStatus(showId)
         viewModel.getShowCast(showId)
+        viewModel.getShowRecommendations(showId)
     }
     val showDetailUiState by viewModel.uiState.collectAsState()
 
@@ -65,6 +68,7 @@ fun ShowDetailScreen(
                 navActionManager = navActionManager,
                 isInWatchlist = isInWatchlist,
                 showCast = showCast,
+                showRecommendations = showRecommendations,
                 modifier = modifier,
             )
         }
@@ -78,6 +82,7 @@ fun ShowDetailScreenContent(
     navActionManager: NavActionManager,
     isInWatchlist: Boolean,
     showCast: List<Cast>,
+    showRecommendations: List<Media>,
     modifier: Modifier = Modifier,
     viewModel: ShowDetailViewModel = hiltViewModel()
 ) {
@@ -129,6 +134,24 @@ fun ShowDetailScreenContent(
                             profilePath = cast.profilePath,
                             characterName = cast.character,
                             playedBy = cast.name
+                        )
+                    })
+                }
+            }
+
+            if (showRecommendations.isNotEmpty()) {
+                Column {
+                    Heading(title = stringResource(R.string.recommendations))
+                    HorizontalFeed(items = showRecommendations, itemContent = { recommendation ->
+                        MediaPosterClickable(
+                            posterUrl = recommendation.posterPath?.toTmdbImgUrl(),
+                            onClick = {
+                                if (recommendation.mediaType == "movie") navActionManager.toMovieDetail(
+                                    recommendation.id
+                                ) else navActionManager.toShowDetail(
+                                    recommendation.id
+                                )
+                            }
                         )
                     })
                 }

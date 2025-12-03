@@ -1,5 +1,7 @@
 package com.elzren.mywatchlist.core.presentation.composables
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +33,17 @@ fun MediaPoster(
             .size(width, height)
             .clip(RoundedCornerShape(8.dp))
     )
+}
+
+@Composable
+fun MediaPosterClickable(
+    posterUrl: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.clickable(onClick = onClick)) {
+        MediaPoster(posterUrl = posterUrl)
+    }
 }
 
 @Composable
