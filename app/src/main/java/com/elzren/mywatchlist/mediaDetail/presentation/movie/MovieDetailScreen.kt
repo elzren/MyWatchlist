@@ -27,9 +27,11 @@ import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
+import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.Keyword
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.CastItem
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.GenresRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.InfoRow
+import com.elzren.mywatchlist.mediaDetail.presentation.composables.Keywords
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaBanner
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaDetailScaffold
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaTitle
@@ -49,6 +51,7 @@ fun MovieDetailScreen(
         viewModel.getWatchlistStatus(movieId)
         viewModel.getMovieCast(movieId)
         viewModel.getMovieRecommendations(movieId)
+        viewModel.getMovieKeywords(movieId)
     }
     val movieDetailUiState by viewModel.uiState.collectAsState()
 
@@ -68,6 +71,7 @@ fun MovieDetailScreen(
                 isInWatchlist = isInWatchlist,
                 movieCast = movieCast,
                 movieRecommendations = movieRecommendations,
+                movieKeywords = movieKeywords,
                 modifier = modifier,
             )
         }
@@ -81,6 +85,7 @@ fun MovieDetailScreenContent(
     isInWatchlist: Boolean,
     movieCast: List<Cast>,
     movieRecommendations: List<Media>,
+    movieKeywords: List<Keyword>,
     modifier: Modifier = Modifier,
     viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
@@ -137,6 +142,11 @@ fun MovieDetailScreenContent(
                 }
             }
 
+            if (movieKeywords.isNotEmpty()) {
+                Heading(title = stringResource(R.string.tags))
+                Keywords(keywords = movieKeywords)
+            }
+
             if (movieRecommendations.isNotEmpty()) {
                 Column {
                     Heading(title = stringResource(R.string.recommendations))
@@ -154,13 +164,6 @@ fun MovieDetailScreenContent(
                     })
                 }
             }
-
-            // to check scroll behavior
-//            Box(
-//                modifier = Modifier
-//                    .height(1000.dp)
-//                    .fillMaxWidth()
-//            )
         }
     }
 }

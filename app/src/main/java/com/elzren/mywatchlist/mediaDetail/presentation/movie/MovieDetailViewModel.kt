@@ -51,7 +51,7 @@ class MovieDetailViewModel @Inject constructor(
 
     fun addToWatchlist(movieDetail: MovieDetail) {
         viewModelScope.launch {
-        watchlistRepo.insertMedia(movieDetail.asWatchlistEntity())
+            watchlistRepo.insertMedia(movieDetail.asWatchlistEntity())
         }
     }
 
@@ -108,6 +108,29 @@ class MovieDetailViewModel @Inject constructor(
 
                         is DataResult.Error -> currentState.copy(
                             isRecommendationsLoading = false
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun getMovieKeywords(movieId: Int) {
+        viewModelScope.launch {
+            mediaDetailRepo.getMovieKeywords(movieId).collect { result ->
+                _uiState.update { currentState ->
+                    when (result) {
+                        is DataResult.Loading -> currentState.copy(
+                            isKeywordsLoading = true,
+                        )
+
+                        is DataResult.Success -> currentState.copy(
+                            movieKeywords = result.data,
+                            isKeywordsLoading = false
+                        )
+
+                        is DataResult.Error -> currentState.copy(
+                            isKeywordsLoading = false
                         )
                     }
                 }

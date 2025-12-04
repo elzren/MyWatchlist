@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import com.elzren.mywatchlist.core.domain.model.Media
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
+import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.Keyword
 
 data class MovieDetailUiState(
     val movieDetail: MovieDetail? = null,
@@ -15,5 +16,8 @@ data class MovieDetailUiState(
     val isCastLoading: Boolean = false,
 
     val movieRecommendations: List<Media> = emptyList(),
-    val isRecommendationsLoading: Boolean = false
+    val isRecommendationsLoading: Boolean = false,
+
+    val movieKeywords: List<Keyword> = emptyList(),
+    val isKeywordsLoading: Boolean = false
 )

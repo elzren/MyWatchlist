@@ -7,6 +7,7 @@ import com.elzren.mywatchlist.core.utils.DataResult
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
+import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.Keyword
 import com.elzren.mywatchlist.mediaDetail.domain.repository.MediaDetailRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -82,6 +83,32 @@ class MediaDetailRepositoryImp @Inject constructor(private val tmdbApi: TmdbApiS
                 val res = tmdbApi.getShowRecommendations(showId)
                 val recommendations = res.results.map { it.asMedia() }
                 emit(DataResult.Success(recommendations))
+            } catch (e: Exception) {
+                emit(DataResult.Error(e))
+            }
+        }
+    }
+
+    override suspend fun getMovieKeywords(movieId: Int): Flow<DataResult<List<Keyword>>> {
+        return flow {
+            emit(DataResult.Loading())
+            try {
+                val res = tmdbApi.getMovieKeywords(movieId)
+                val keywords = res.keywords
+                emit(DataResult.Success(keywords))
+            } catch (e: Exception) {
+                emit(DataResult.Error(e))
+            }
+        }
+    }
+
+    override suspend fun getShowKeywords(showId: Int): Flow<DataResult<List<Keyword>>> {
+        return flow {
+            emit(DataResult.Loading())
+            try {
+                val res = tmdbApi.getShowKeywords(showId)
+                val keywords = res.keywords
+                emit(DataResult.Success(keywords))
             } catch (e: Exception) {
                 emit(DataResult.Error(e))
             }

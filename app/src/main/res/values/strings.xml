@@ -20,5 +20,6 @@
     <string name="github_repository">GitHub Repository</string>
     <string name="version">Version</string>
     <string name="cast">Cast</string>
+    <string name="tags">Tags</string>
     <string name="recommendations">Recommendations</string>
 </resources>

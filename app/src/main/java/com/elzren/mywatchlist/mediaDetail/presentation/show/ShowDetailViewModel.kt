@@ -63,9 +63,9 @@ class ShowDetailViewModel @Inject constructor(
 
     fun getWatchlistStatus(id: Int) {
         viewModelScope.launch {
-           watchlistRepo.isMediaInWatchlist(mediaType = "tv", tmdbId = id).collect {
-               _uiState.update { currentState -> currentState.copy(isInWatchlist = it) }
-           }
+            watchlistRepo.isMediaInWatchlist(mediaType = "tv", tmdbId = id).collect {
+                _uiState.update { currentState -> currentState.copy(isInWatchlist = it) }
+            }
         }
     }
 
@@ -108,6 +108,29 @@ class ShowDetailViewModel @Inject constructor(
 
                         is DataResult.Error -> currentState.copy(
                             isRecommendationsLoading = false
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun getShowKeywords(showId: Int) {
+        viewModelScope.launch {
+            mediaDetailRepo.getShowKeywords(showId).collect { result ->
+                _uiState.update { currentState ->
+                    when (result) {
+                        is DataResult.Loading -> currentState.copy(
+                            isKeywordsLoading = true,
+                        )
+
+                        is DataResult.Success -> currentState.copy(
+                            showKeywords = result.data,
+                            isKeywordsLoading = false
+                        )
+
+                        is DataResult.Error -> currentState.copy(
+                            isKeywordsLoading = false
                         )
                     }
                 }

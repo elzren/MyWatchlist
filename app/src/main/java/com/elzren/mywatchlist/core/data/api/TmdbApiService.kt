@@ -9,6 +9,8 @@ import com.elzren.mywatchlist.home.domain.model.Show
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Credit
+import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.MovieKeywordResponse
+import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.ShowKeywordResponse
 import retrofit2.http.Path
 
 interface TmdbApiService {
@@ -70,4 +72,14 @@ interface TmdbApiService {
         @Path("showId") showId: Int,
         @Query("page") page: Int = 1
     ): MediaResponse<MediaModel>
+
+    @GET("movie/{movieId}/keywords")
+    suspend fun getMovieKeywords(
+        @Path("movieId") movieId: Int,
+    ): MovieKeywordResponse
+
+    @GET("tv/{showId}/keywords")
+    suspend fun getShowKeywords(
+        @Path("showId") showId: Int,
+    ): ShowKeywordResponse
 }

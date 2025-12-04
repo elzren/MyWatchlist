@@ -28,9 +28,11 @@ import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
+import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.Keyword
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.CastItem
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.GenresRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.InfoRow
+import com.elzren.mywatchlist.mediaDetail.presentation.composables.Keywords
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaBanner
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaDetailScaffold
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaTitle
@@ -50,6 +52,7 @@ fun ShowDetailScreen(
         viewModel.getWatchlistStatus(showId)
         viewModel.getShowCast(showId)
         viewModel.getShowRecommendations(showId)
+        viewModel.getShowKeywords(showId)
     }
     val showDetailUiState by viewModel.uiState.collectAsState()
 
@@ -69,6 +72,7 @@ fun ShowDetailScreen(
                 isInWatchlist = isInWatchlist,
                 showCast = showCast,
                 showRecommendations = showRecommendations,
+                showKeywords = showKeywords,
                 modifier = modifier,
             )
         }
@@ -83,6 +87,7 @@ fun ShowDetailScreenContent(
     isInWatchlist: Boolean,
     showCast: List<Cast>,
     showRecommendations: List<Media>,
+    showKeywords: List<Keyword>,
     modifier: Modifier = Modifier,
     viewModel: ShowDetailViewModel = hiltViewModel()
 ) {
@@ -137,6 +142,11 @@ fun ShowDetailScreenContent(
                         )
                     })
                 }
+            }
+
+            if (showKeywords.isNotEmpty()) {
+                Heading(title = stringResource(R.string.tags))
+                Keywords(keywords = showKeywords)
             }
 
             if (showRecommendations.isNotEmpty()) {
