@@ -22,4 +22,6 @@
     <string name="cast">Cast</string>
     <string name="tags">Tags</string>
     <string name="recommendations">Recommendations</string>
+    <string name="movies">Movies</string>
+    <string name="shows">Shows</string>
 </resources>

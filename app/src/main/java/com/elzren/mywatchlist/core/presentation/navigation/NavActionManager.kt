@@ -29,4 +29,20 @@ class NavActionManager(private val navController: NavHostController) {
     fun toSearch() {
         navController.navigate(Routes.Search)
     }
+
+    fun toMediaScreen(
+        title: String? = null,
+        genres: String? = null,
+        keywords: String? = null,
+        isShow: Boolean = false
+    ) {
+        navController.navigate(
+            Routes.MediaScreen(
+                title = title,
+                genres = genres,
+                keywords = keywords,
+                isShow = isShow
+            )
+        )
+    }
 }

@@ -127,7 +127,11 @@ fun ShowDetailScreenContent(
                     )
                 }
             }
-            GenresRow(genres = showDetail.genres)
+            GenresRow(
+                genres = showDetail.genres,
+                navActionManager = navActionManager,
+                isShow = true
+            )
             Synopsis(synopsis = showDetail.overview)
 
             if (showCast.isNotEmpty()) {
@@ -146,7 +150,11 @@ fun ShowDetailScreenContent(
 
             if (showKeywords.isNotEmpty()) {
                 Heading(title = stringResource(R.string.tags))
-                Keywords(keywords = showKeywords)
+                Keywords(
+                    keywords = showKeywords,
+                    navActionManager = navActionManager,
+                    isShow = true
+                )
             }
 
             if (showRecommendations.isNotEmpty()) {
@@ -166,13 +174,6 @@ fun ShowDetailScreenContent(
                     })
                 }
             }
-
-            // to check scroll behavior
-//            Box(
-//                modifier = Modifier
-//                    .height(1000.dp)
-//                    .fillMaxWidth()
-//            )
         }
     }
 }

@@ -14,6 +14,8 @@ import com.elzren.mywatchlist.core.utils.Constants.DATABASE_NAME
 import com.elzren.mywatchlist.core.utils.Constants.TMDB_BASE_URL
 import com.elzren.mywatchlist.home.data.repository.HomeRepositoryImp
 import com.elzren.mywatchlist.home.domain.repository.HomeRepository
+import com.elzren.mywatchlist.media.data.repository.MediaRepositoryImp
+import com.elzren.mywatchlist.media.domain.MediaRepository
 import com.elzren.mywatchlist.mediaDetail.data.repository.MediaDetailRepositoryImp
 import com.elzren.mywatchlist.mediaDetail.domain.repository.MediaDetailRepository
 import com.elzren.mywatchlist.search.data.repository.SearchRepositoryImp
@@ -98,4 +100,9 @@ object AppModule {
     @Singleton
     fun provideSearchRepository(tmdbApi: TmdbApiService): SearchRepository =
         SearchRepositoryImp(tmdbApi)
+
+    @Provides
+    @Singleton
+    fun provideMediaRepository(tmdbApi: TmdbApiService): MediaRepository =
+        MediaRepositoryImp(tmdbApi)
 }

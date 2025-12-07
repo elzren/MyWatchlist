@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.elzren.mywatchlist.home.presentation.HomeScreen
+import com.elzren.mywatchlist.media.presentation.MediaScreen
 import com.elzren.mywatchlist.mediaDetail.presentation.movie.MovieDetailScreen
 import com.elzren.mywatchlist.mediaDetail.presentation.show.ShowDetailScreen
 import com.elzren.mywatchlist.search.presentation.SearchScreen
@@ -48,6 +49,17 @@ fun Navigation(
 
         composable<Routes.Settings> {
             SettingsScreen(navActionManager = navActionManager)
+        }
+
+        composable<Routes.MediaScreen> { backStackEntry ->
+            val mediaScreen: Routes.MediaScreen = backStackEntry.toRoute()
+            MediaScreen(
+                screenTitle = mediaScreen.title,
+                genres = mediaScreen.genres,
+                keywords = mediaScreen.keywords,
+                isShow = mediaScreen.isShow,
+                navActionManager = navActionManager,
+            )
         }
     }
 }

@@ -82,4 +82,18 @@ interface TmdbApiService {
     suspend fun getShowKeywords(
         @Path("showId") showId: Int,
     ): ShowKeywordResponse
+
+    @GET("discover/movie")
+    suspend fun getMovies(
+        @Query("page") page: Int = 1,
+        @Query("with_genres") withGenres: String?,
+        @Query("with_keywords") withKeywords: String?
+    ): MediaResponse<Movie>
+
+    @GET("discover/tv")
+    suspend fun getShows(
+        @Query("page") page: Int = 1,
+        @Query("with_genres") withGenres: String?,
+        @Query("with_keywords") withKeywords: String?
+    ): MediaResponse<Show>
 }

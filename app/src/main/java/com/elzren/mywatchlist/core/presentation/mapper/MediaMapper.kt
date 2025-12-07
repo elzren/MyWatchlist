@@ -2,6 +2,8 @@ package com.elzren.mywatchlist.core.presentation.mapper
 
 import com.elzren.mywatchlist.core.domain.model.Media
 import com.elzren.mywatchlist.core.domain.model.MediaModel
+import com.elzren.mywatchlist.home.domain.model.Movie
+import com.elzren.mywatchlist.home.domain.model.Show
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
 import com.elzren.mywatchlist.watchlist.data.local.WatchlistEntity
@@ -45,4 +47,42 @@ fun MovieDetail.asWatchlistEntity() = WatchlistEntity(
     releaseDate = releaseDate,
     originalLanguage = originalLanguage,
     voteAverage = voteAverage
+)
+
+fun Movie.asMedia() = Media(
+    id = id,
+    mediaType = "movie",
+    title = title,
+    overview = overview,
+    posterPath = posterPath,
+    backdropPath = backdropPath,
+    adult = adult,
+    genreIds = genreIds,
+    originCountry = null,
+    originalLanguage = originalLanguage,
+    popularity = popularity,
+    originalTitle = originalTitle,
+    releaseDate = releaseDate,
+    video = video,
+    voteAverage = voteAverage,
+    voteCount = voteCount
+)
+
+fun Show.asMedia() = Media(
+    id = id,
+    mediaType = "tv",
+    title = name,
+    overview = overview,
+    posterPath = posterPath,
+    backdropPath = backdropPath,
+    adult = adult,
+    genreIds = genreIds,
+    originCountry = null,
+    originalLanguage = originalLanguage,
+    popularity = popularity,
+    originalTitle = originalName,
+    releaseDate = firstAirDate,
+    video = false,
+    voteAverage = voteAverage,
+    voteCount = voteCount
 )

@@ -10,11 +10,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
+import com.elzren.mywatchlist.core.utils.StringUtils.capitalizeFirstChar
 import com.elzren.mywatchlist.mediaDetail.domain.model.Genre
 import kotlin.collections.forEach
 
 @Composable
-fun GenresRow(genres: List<Genre>, modifier: Modifier = Modifier) {
+fun GenresRow(
+    genres: List<Genre>,
+    navActionManager: NavActionManager,
+    modifier: Modifier = Modifier,
+    isShow: Boolean = false
+) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
@@ -23,7 +30,13 @@ fun GenresRow(genres: List<Genre>, modifier: Modifier = Modifier) {
     ) {
         genres.forEach { genre ->
             AssistChip(
-                onClick = {},
+                onClick = {
+                    navActionManager.toMediaScreen(
+                        title = genre.name.capitalizeFirstChar(),
+                        genres = genre.id.toString(),
+                        isShow = isShow
+                    )
+                },
                 label = { Text(text = genre.name) }
             )
         }

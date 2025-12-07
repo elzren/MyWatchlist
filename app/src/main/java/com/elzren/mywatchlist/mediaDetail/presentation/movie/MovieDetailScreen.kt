@@ -125,7 +125,7 @@ fun MovieDetailScreenContent(
                     )
                 }
             }
-            GenresRow(genres = movieDetail.genres)
+            GenresRow(genres = movieDetail.genres, navActionManager = navActionManager)
             Synopsis(synopsis = movieDetail.overview)
 
             if (movieCast.isNotEmpty()) {
@@ -144,7 +144,7 @@ fun MovieDetailScreenContent(
 
             if (movieKeywords.isNotEmpty()) {
                 Heading(title = stringResource(R.string.tags))
-                Keywords(keywords = movieKeywords)
+                Keywords(keywords = movieKeywords, navActionManager = navActionManager)
             }
 
             if (movieRecommendations.isNotEmpty()) {

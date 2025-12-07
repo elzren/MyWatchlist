@@ -20,4 +20,12 @@ object Routes {
 
     @Serializable
     object Settings
+
+    @Serializable
+    data class MediaScreen(
+        val title: String?,
+        val genres: String?,
+        val keywords: String?,
+        val isShow: Boolean
+    )
 }
