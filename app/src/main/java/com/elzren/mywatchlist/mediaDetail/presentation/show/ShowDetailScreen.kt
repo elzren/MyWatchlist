@@ -142,7 +142,8 @@ fun ShowDetailScreenContent(
                             id = cast.id,
                             profilePath = cast.profilePath,
                             characterName = cast.character,
-                            playedBy = cast.name
+                            playedBy = cast.name,
+                            navActionManager = navActionManager
                         )
                     })
                 }

@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 fun <T> HorizontalPagerWithTabs(
     modifier: Modifier = Modifier,
     tabs: List<TabItem<T>>,
-    initialPage: Int,
+    initialPage: Int = 0,
     pageContent: @Composable (PagerScope.(Int) -> Unit)
 ) {
     val pagerState =

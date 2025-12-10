@@ -1,6 +1,7 @@
 package com.elzren.mywatchlist.mediaDetail.presentation.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.elzren.mywatchlist.core.presentation.composables.MediaPoster
+import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
 
 const val CAST_ITEM_WIDTH = 125
@@ -25,9 +27,15 @@ fun CastItem(
     profilePath: String?,
     characterName: String,
     playedBy: String,
+    navActionManager: NavActionManager,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier, contentAlignment = Alignment.BottomStart) {
+    Box(modifier = modifier.clickable(onClick = {
+        navActionManager.toPersonScreen(
+            id,
+            profilePath
+        )
+    }), contentAlignment = Alignment.BottomStart) {
         MediaPoster(
             posterUrl = profilePath?.toTmdbImgUrl(),
             width = CAST_ITEM_WIDTH.dp,

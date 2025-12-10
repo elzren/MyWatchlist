@@ -10,6 +10,7 @@ import com.elzren.mywatchlist.home.presentation.HomeScreen
 import com.elzren.mywatchlist.media.presentation.MediaScreen
 import com.elzren.mywatchlist.mediaDetail.presentation.movie.MovieDetailScreen
 import com.elzren.mywatchlist.mediaDetail.presentation.show.ShowDetailScreen
+import com.elzren.mywatchlist.person.presentation.PersonScreen
 import com.elzren.mywatchlist.search.presentation.SearchScreen
 import com.elzren.mywatchlist.settings.presentation.SettingsScreen
 import com.elzren.mywatchlist.watchlist.presentation.WatchlistScreen
@@ -58,6 +59,15 @@ fun Navigation(
                 genres = mediaScreen.genres,
                 keywords = mediaScreen.keywords,
                 isShow = mediaScreen.isShow,
+                navActionManager = navActionManager,
+            )
+        }
+
+        composable<Routes.PersonScreen> { backStackEntry ->
+            val personScreen: Routes.PersonScreen = backStackEntry.toRoute()
+            PersonScreen(
+                personId = personScreen.personId,
+                personProfilePath = personScreen.personProfilePath,
                 navActionManager = navActionManager,
             )
         }

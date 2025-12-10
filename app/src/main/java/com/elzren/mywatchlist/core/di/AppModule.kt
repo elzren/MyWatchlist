@@ -18,6 +18,8 @@ import com.elzren.mywatchlist.media.data.repository.MediaRepositoryImp
 import com.elzren.mywatchlist.media.domain.MediaRepository
 import com.elzren.mywatchlist.mediaDetail.data.repository.MediaDetailRepositoryImp
 import com.elzren.mywatchlist.mediaDetail.domain.repository.MediaDetailRepository
+import com.elzren.mywatchlist.person.data.repository.PersonRepositoryImp
+import com.elzren.mywatchlist.person.domain.repository.PersonRepository
 import com.elzren.mywatchlist.search.data.repository.SearchRepositoryImp
 import com.elzren.mywatchlist.search.domain.repository.SearchRepository
 import com.elzren.mywatchlist.watchlist.data.local.WatchlistDao
@@ -105,4 +107,9 @@ object AppModule {
     @Singleton
     fun provideMediaRepository(tmdbApi: TmdbApiService): MediaRepository =
         MediaRepositoryImp(tmdbApi)
+
+    @Provides
+    @Singleton
+    fun providePersonRepository(tmdbApi: TmdbApiService): PersonRepository =
+        PersonRepositoryImp(tmdbApi)
 }

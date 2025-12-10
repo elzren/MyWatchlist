@@ -11,6 +11,8 @@ import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Credit
 import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.MovieKeywordResponse
 import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.ShowKeywordResponse
+import com.elzren.mywatchlist.person.domain.model.Credits
+import com.elzren.mywatchlist.person.domain.model.Person
 import retrofit2.http.Path
 
 interface TmdbApiService {
@@ -96,4 +98,24 @@ interface TmdbApiService {
         @Query("with_genres") withGenres: String?,
         @Query("with_keywords") withKeywords: String?
     ): MediaResponse<Show>
+
+    @GET("person/{personId}")
+    suspend fun getPersonDetail(
+        @Path("personId") personId: Int
+    ): Person
+
+    @GET("person/{personId}/movie_credits")
+    suspend fun getPersonMovies(
+        @Path("personId") personId: Int
+    ): Credits<Movie>
+
+    @GET("person/{personId}/tv_credits")
+    suspend fun getPersonShows(
+        @Path("personId") personId: Int
+    ): Credits<Show>
+
+    @GET("person/{personId}/combined_credits")
+    suspend fun getPersonCombinedMedia(
+        @Path("personId") personId: Int
+    ): Credits<MediaModel>
 }

@@ -45,4 +45,16 @@ class NavActionManager(private val navController: NavHostController) {
             )
         )
     }
+
+    fun toPersonScreen(
+        personId: Int,
+        personProfilePath: String?,
+    ) {
+        navController.navigate(
+            Routes.PersonScreen(
+                personId = personId,
+                personProfilePath = personProfilePath
+            )
+        )
+    }
 }

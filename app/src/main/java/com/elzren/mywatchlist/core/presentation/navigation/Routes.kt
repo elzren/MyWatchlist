@@ -28,4 +28,10 @@ object Routes {
         val keywords: String?,
         val isShow: Boolean
     )
+
+    @Serializable
+    data class PersonScreen(
+        val personId: Int,
+        val personProfilePath: String?,
+    )
 }
