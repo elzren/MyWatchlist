@@ -27,7 +27,7 @@ fun TextWithIcon(
             painter = painterResource(icon),
             contentDescription = text,
             tint = color,
-            modifier = Modifier.padding(end = 4.dp)
+            modifier = Modifier.padding(bottom = 2.dp, end = 2.dp)
         )
         Text(text = text, color = color, fontSize = fontSize)
     }

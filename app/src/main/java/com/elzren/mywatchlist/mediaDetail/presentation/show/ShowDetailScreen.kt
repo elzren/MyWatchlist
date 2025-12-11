@@ -107,13 +107,11 @@ fun ShowDetailScreenContent(
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     InfoRow(
+                        mediaType = "tv",
+                        releaseDate = showDetail.firstAirDate,
+                        originalLanguage = showDetail.originalLanguage,
+                        voteAverage = showDetail.voteAverage,
                         modifier = Modifier.padding(vertical = 8.dp),
-                        infoList = listOf(
-                            "Tv",
-                            showDetail.firstAirDate.substringBefore('-'),
-                            showDetail.originalLanguage.uppercase(),
-                            showDetail.voteAverage.toString().substring(0, 3),
-                        )
                     )
                     WatchlistButton(
                         isInWatchlist = isInWatchlist,

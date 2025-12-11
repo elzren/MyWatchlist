@@ -54,15 +54,10 @@ fun HorizontalMediaItem(
                 overflow = TextOverflow.Ellipsis
             )
             InfoRow(
-                color = MaterialTheme.colorScheme.outline,
-                infoList = listOf(
-                    mediaType.replaceFirstChar {
-                        if (it.isLowerCase()) it.titlecase() else it.toString()
-                    },
-                    releaseDate.substringBefore('-'),
-                    originalLanguage.uppercase(),
-                    voteAverage.toString().substring(0, 3),
-                )
+                mediaType = mediaType,
+                releaseDate = releaseDate,
+                originalLanguage = originalLanguage,
+                voteAverage = voteAverage
             )
             Text(
                 text = overview,
