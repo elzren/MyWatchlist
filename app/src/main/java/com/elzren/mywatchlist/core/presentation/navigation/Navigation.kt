@@ -1,6 +1,10 @@
 package com.elzren.mywatchlist.core.presentation.navigation
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,19 +23,29 @@ import com.elzren.mywatchlist.watchlist.presentation.WatchlistScreen
 fun Navigation(
     navController: NavHostController,
     navActionManager: NavActionManager,
-    modifier: Modifier = Modifier
+    padding: PaddingValues
 ) {
+    val bottomPadding by animateDpAsState(
+        targetValue = padding.calculateBottomPadding(),
+        label = "bottom_bar_padding"
+    )
+
     NavHost(
         navController = navController,
         startDestination = Routes.Home,
-        modifier = modifier
     ) {
         composable<Routes.Home> {
-            HomeScreen(navActionManager = navActionManager)
+            HomeScreen(
+                navActionManager = navActionManager,
+                modifier = Modifier.padding(bottom = bottomPadding)
+            )
         }
 
         composable<Routes.Search> {
-            SearchScreen(navActionManager = navActionManager)
+            SearchScreen(
+                navActionManager = navActionManager,
+                modifier = Modifier.padding(bottom = bottomPadding)
+            )
         }
 
         composable<Routes.MovieDetail> { backStackEntry ->
@@ -45,11 +59,17 @@ fun Navigation(
         }
 
         composable<Routes.Watchlist> {
-            WatchlistScreen(navActionManager = navActionManager)
+            WatchlistScreen(
+                navActionManager = navActionManager,
+                modifier = Modifier.padding(bottom = bottomPadding)
+            )
         }
 
         composable<Routes.Settings> {
-            SettingsScreen(navActionManager = navActionManager)
+            SettingsScreen(
+                navActionManager = navActionManager,
+                modifier = Modifier.padding(bottom = bottomPadding)
+            )
         }
 
         composable<Routes.MediaScreen> { backStackEntry ->

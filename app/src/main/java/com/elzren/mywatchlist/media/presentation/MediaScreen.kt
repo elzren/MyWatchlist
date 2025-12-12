@@ -1,5 +1,6 @@
 package com.elzren.mywatchlist.media.presentation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
@@ -81,7 +82,6 @@ fun MediaScreen(
                     MediaType.SHOW.ordinal -> shows
                     else -> movies
                 },
-                modifier = Modifier.padding(top = 16.dp),
                 navActionManager = navActionManager
             )
         }
@@ -95,9 +95,8 @@ fun MediaContent(
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxSize()
+        contentPadding = PaddingValues(16.dp),
+        modifier = modifier.fillMaxSize()
     ) {
         when {
             (mediaItems.itemCount > 0) -> {

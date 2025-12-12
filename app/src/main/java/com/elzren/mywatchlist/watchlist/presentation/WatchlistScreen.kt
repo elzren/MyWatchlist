@@ -1,8 +1,10 @@
 package com.elzren.mywatchlist.watchlist.presentation
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -73,9 +75,8 @@ fun WatchlistScreenContent(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .padding(top = 16.dp)
+        contentPadding = PaddingValues(16.dp),
+        modifier = modifier.fillMaxHeight()
     ) {
         items(watchlist) { media ->
             with(media) {

@@ -1,6 +1,7 @@
 package com.elzren.mywatchlist.search.presentation
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -110,10 +111,8 @@ fun MainSearchBar(
             onExpandedChange = onSearchActiveChange,
         ) {
             LazyColumn(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp)
-                    .fillMaxSize()
+                contentPadding = PaddingValues(16.dp),
+                modifier = modifier.fillMaxSize()
             ) {
                 when {
                     (searchResults.itemCount > 0) -> {
