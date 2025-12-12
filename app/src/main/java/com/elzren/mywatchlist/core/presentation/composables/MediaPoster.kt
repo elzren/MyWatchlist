@@ -19,12 +19,13 @@ import com.elzren.mywatchlist.core.utils.Constants
 fun MediaPoster(
     posterUrl: String?,
     modifier: Modifier = Modifier,
+    contentDescription: String? = null,
     width: Dp = Constants.MEDIA_POSTER_WIDTH.dp,
     height: Dp = Constants.MEDIA_POSTER_HEIGHT.dp,
 ) {
     AsyncImage(
         model = posterUrl,
-        contentDescription = "Poster",
+        contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
         fallback = ColorPainter(MaterialTheme.colorScheme.outline),
         placeholder = ColorPainter(MaterialTheme.colorScheme.outline),
@@ -39,10 +40,11 @@ fun MediaPoster(
 fun MediaPosterClickable(
     posterUrl: String?,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
 ) {
     Box(modifier = modifier.clickable(onClick = onClick)) {
-        MediaPoster(posterUrl = posterUrl)
+        MediaPoster(posterUrl = posterUrl, contentDescription = contentDescription)
     }
 }
 
