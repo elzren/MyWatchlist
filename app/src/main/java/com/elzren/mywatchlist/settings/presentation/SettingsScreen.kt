@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -59,11 +60,12 @@ fun SettingsScreen(
         title = stringResource(R.string.settings),
         scrollBehavior = topAppBarScrollBehavior,
         contentWindowInsets = WindowInsets.systemBars.only(WindowInsetsSides.Horizontal),
-        modifier = modifier
-            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
-    ) { padding ->
+    )
+    { padding ->
         Column(
             modifier = modifier
+                .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
+                .fillMaxSize()
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
         ) {
