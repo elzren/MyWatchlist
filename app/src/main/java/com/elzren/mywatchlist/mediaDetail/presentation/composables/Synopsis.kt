@@ -1,7 +1,7 @@
 package com.elzren.mywatchlist.mediaDetail.presentation.composables
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,14 +17,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.elzren.mywatchlist.R
+import com.elzren.mywatchlist.core.utils.ContextUtils.copyToClipboard
 
 @Composable
 fun Synopsis(synopsis: String, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     var isSynopsisOverflowing by remember { mutableStateOf(false) }
     var isSynopsisExpanded by remember { mutableStateOf(false) }
 
@@ -40,12 +43,13 @@ fun Synopsis(synopsis: String, modifier: Modifier = Modifier) {
             lineHeight = 18.sp,
             maxLines = if (isSynopsisExpanded) Int.MAX_VALUE else 5,
             overflow = TextOverflow.Ellipsis,
-            onTextLayout = { result -> if (!isSynopsisOverflowing) isSynopsisOverflowing = result.hasVisualOverflow },
+            onTextLayout = { result ->
+                if (!isSynopsisOverflowing) isSynopsisOverflowing = result.hasVisualOverflow
+            },
             modifier = Modifier
-                .then(
-                    if (isSynopsisOverflowing)
-                        Modifier.clickable(onClick = { toggleSynopsisExpand() })
-                    else Modifier
+                .combinedClickable(
+                    onLongClick = { context.copyToClipboard(synopsis) },
+                    onClick = { if (isSynopsisOverflowing) toggleSynopsisExpand() }
                 )
                 .animateContentSize()
         )

@@ -1,5 +1,6 @@
 package com.elzren.mywatchlist.person.presentation.composables
 
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -8,10 +9,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.elzren.mywatchlist.R
 import com.elzren.mywatchlist.core.presentation.composables.MediaPosterSmall
+import com.elzren.mywatchlist.core.utils.ContextUtils.copyToClipboard
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
 import com.elzren.mywatchlist.person.domain.model.Person
 
@@ -21,6 +24,8 @@ fun PersonProfile(
     personDetail: Person?,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+
     Row(
         verticalAlignment = Alignment.Bottom,
         modifier = modifier
@@ -36,7 +41,12 @@ fun PersonProfile(
                 Text(
                     text = personDetail.name,
                     style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .combinedClickable(
+                            onLongClick = { context.copyToClipboard(personDetail.name) },
+                            onClick = {}
+                        )
                 )
                 Row {
                     Text(

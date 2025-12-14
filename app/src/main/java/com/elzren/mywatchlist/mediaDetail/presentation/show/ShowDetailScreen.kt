@@ -1,5 +1,6 @@
 package com.elzren.mywatchlist.mediaDetail.presentation.show
 
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -25,6 +27,7 @@ import com.elzren.mywatchlist.core.presentation.composables.Heading
 import com.elzren.mywatchlist.core.presentation.composables.HorizontalFeed
 import com.elzren.mywatchlist.core.presentation.composables.MediaPosterClickable
 import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
+import com.elzren.mywatchlist.core.utils.ContextUtils.copyToClipboard
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
@@ -91,6 +94,8 @@ fun ShowDetailScreenContent(
     modifier: Modifier = Modifier,
     viewModel: ShowDetailViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+
     MediaDetailScaffold(title = showDetail.name, navActionManager = navActionManager) { padding ->
         Column(
             modifier = modifier
@@ -104,7 +109,12 @@ fun ShowDetailScreenContent(
                 PosterRow(posterUrl = showDetail.posterPath?.toTmdbImgUrl()) {
                     MediaTitle(
                         title = showDetail.name,
-                        modifier = Modifier.padding(top = 16.dp)
+                        modifier = Modifier
+                            .padding(top = 16.dp)
+                            .combinedClickable(
+                                onLongClick = { context.copyToClipboard(showDetail.name) },
+                                onClick = {}
+                            )
                     )
                     InfoRow(
                         mediaType = "tv",
