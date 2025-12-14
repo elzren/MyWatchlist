@@ -40,30 +40,32 @@ fun Synopsis(synopsis: String, modifier: Modifier = Modifier) {
             lineHeight = 18.sp,
             maxLines = if (isSynopsisExpanded) Int.MAX_VALUE else 5,
             overflow = TextOverflow.Ellipsis,
-            onTextLayout = { result -> isSynopsisOverflowing = result.hasVisualOverflow },
+            onTextLayout = { result -> if (!isSynopsisOverflowing) isSynopsisOverflowing = result.hasVisualOverflow },
             modifier = Modifier
                 .then(
-                    if (isSynopsisOverflowing || isSynopsisExpanded)
+                    if (isSynopsisOverflowing)
                         Modifier.clickable(onClick = { toggleSynopsisExpand() })
                     else Modifier
                 )
                 .animateContentSize()
         )
+
         Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
             if (isSynopsisOverflowing) {
-                IconButton(onClick = { toggleSynopsisExpand() }) {
-                    Icon(
-                        painter = painterResource(R.drawable.keyboard_arrow_down_24px),
-                        contentDescription = "Expand"
-                    )
-                }
-            }
-            if (isSynopsisExpanded) {
-                IconButton(onClick = { toggleSynopsisExpand() }) {
-                    Icon(
-                        painter = painterResource(R.drawable.keyboard_arrow_up_24px),
-                        contentDescription = "Collapse"
-                    )
+                if (isSynopsisExpanded) {
+                    IconButton(onClick = { toggleSynopsisExpand() }) {
+                        Icon(
+                            painter = painterResource(R.drawable.keyboard_arrow_up_24px),
+                            contentDescription = "Collapse"
+                        )
+                    }
+                } else {
+                    IconButton(onClick = { toggleSynopsisExpand() }) {
+                        Icon(
+                            painter = painterResource(R.drawable.keyboard_arrow_down_24px),
+                            contentDescription = "Expand"
+                        )
+                    }
                 }
             }
         }
