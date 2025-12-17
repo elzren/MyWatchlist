@@ -137,6 +137,29 @@ class MovieDetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun getMovieTrailer(movieId: Int) {
+        viewModelScope.launch {
+            mediaDetailRepo.getMovieTrailer(movieId).collect { result ->
+                _uiState.update { currentState ->
+                    when (result) {
+                        is DataResult.Loading -> currentState.copy(
+                            isTrailerLoading = true,
+                        )
+
+                        is DataResult.Success -> currentState.copy(
+                            movieTrailer = result.data,
+                            isTrailerLoading = false
+                        )
+
+                        is DataResult.Error -> currentState.copy(
+                            isTrailerLoading = false
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 

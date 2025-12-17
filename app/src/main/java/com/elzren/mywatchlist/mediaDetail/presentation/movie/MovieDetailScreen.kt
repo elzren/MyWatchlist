@@ -29,6 +29,7 @@ import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 import com.elzren.mywatchlist.core.utils.ContextUtils.copyToClipboard
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
+import com.elzren.mywatchlist.mediaDetail.domain.model.Video
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
 import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.Keyword
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.CastItem
@@ -40,6 +41,7 @@ import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaDetailSc
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaTitle
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.PosterRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.Synopsis
+import com.elzren.mywatchlist.mediaDetail.presentation.composables.TrailerRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.WatchlistButton
 
 @Composable
@@ -55,6 +57,7 @@ fun MovieDetailScreen(
         viewModel.getMovieCast(movieId)
         viewModel.getMovieRecommendations(movieId)
         viewModel.getMovieKeywords(movieId)
+        viewModel.getMovieTrailer(movieId)
     }
     val movieDetailUiState by viewModel.uiState.collectAsState()
 
@@ -75,6 +78,7 @@ fun MovieDetailScreen(
                 movieCast = movieCast,
                 movieRecommendations = movieRecommendations,
                 movieKeywords = movieKeywords,
+                movieTrailer = movieTrailer,
                 modifier = modifier,
             )
         }
@@ -89,6 +93,7 @@ fun MovieDetailScreenContent(
     movieCast: List<Cast>,
     movieRecommendations: List<Media>,
     movieKeywords: List<Keyword>,
+    movieTrailer: List<Video>,
     modifier: Modifier = Modifier,
     viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
@@ -148,6 +153,13 @@ fun MovieDetailScreenContent(
                             navActionManager = navActionManager
                         )
                     })
+                }
+            }
+
+            if (movieTrailer.isNotEmpty()) {
+                Column {
+                    Heading(title = stringResource(R.string.trailer))
+                    TrailerRow(movieTrailer)
                 }
             }
 

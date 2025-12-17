@@ -3,6 +3,7 @@ package com.elzren.mywatchlist.mediaDetail.presentation.movie
 import androidx.annotation.StringRes
 import com.elzren.mywatchlist.core.domain.model.Media
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
+import com.elzren.mywatchlist.mediaDetail.domain.model.Video
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
 import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.Keyword
 
@@ -19,5 +20,8 @@ data class MovieDetailUiState(
     val isRecommendationsLoading: Boolean = false,
 
     val movieKeywords: List<Keyword> = emptyList(),
-    val isKeywordsLoading: Boolean = false
+    val isKeywordsLoading: Boolean = false,
+
+    val movieTrailer: List<Video> = emptyList(),
+    val isTrailerLoading: Boolean = false,
 )

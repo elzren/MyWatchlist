@@ -10,12 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.elzren.mywatchlist.core.presentation.theme.overlay_color
 
 @Composable
 fun MediaBanner(bannerUrl: String?, modifier: Modifier = Modifier, height: Dp = 300.dp) {
@@ -41,7 +41,7 @@ fun MediaBanner(bannerUrl: String?, modifier: Modifier = Modifier, height: Dp = 
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
-                            Color(0x55000000),
+                            overlay_color,
                             MaterialTheme.colorScheme.surface
                         )
                     )

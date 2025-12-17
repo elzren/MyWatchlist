@@ -30,6 +30,7 @@ import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 import com.elzren.mywatchlist.core.utils.ContextUtils.copyToClipboard
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
+import com.elzren.mywatchlist.mediaDetail.domain.model.Video
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
 import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.Keyword
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.CastItem
@@ -41,7 +42,9 @@ import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaDetailSc
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaTitle
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.PosterRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.Synopsis
+import com.elzren.mywatchlist.mediaDetail.presentation.composables.TrailerRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.WatchlistButton
+
 
 @Composable
 fun ShowDetailScreen(
@@ -56,6 +59,7 @@ fun ShowDetailScreen(
         viewModel.getShowCast(showId)
         viewModel.getShowRecommendations(showId)
         viewModel.getShowKeywords(showId)
+        viewModel.getShowTrailer(showId)
     }
     val showDetailUiState by viewModel.uiState.collectAsState()
 
@@ -76,6 +80,7 @@ fun ShowDetailScreen(
                 showCast = showCast,
                 showRecommendations = showRecommendations,
                 showKeywords = showKeywords,
+                showTrailer = showTrailer,
                 modifier = modifier,
             )
         }
@@ -91,6 +96,7 @@ fun ShowDetailScreenContent(
     showCast: List<Cast>,
     showRecommendations: List<Media>,
     showKeywords: List<Keyword>,
+    showTrailer: List<Video>,
     modifier: Modifier = Modifier,
     viewModel: ShowDetailViewModel = hiltViewModel()
 ) {
@@ -154,6 +160,13 @@ fun ShowDetailScreenContent(
                             navActionManager = navActionManager
                         )
                     })
+                }
+            }
+
+            if (showTrailer.isNotEmpty()) {
+                Column {
+                    Heading(title = stringResource(R.string.trailer))
+                    TrailerRow(showTrailer)
                 }
             }
 

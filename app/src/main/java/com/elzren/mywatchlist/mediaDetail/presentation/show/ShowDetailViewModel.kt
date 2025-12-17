@@ -137,4 +137,27 @@ class ShowDetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun getShowTrailer(showId: Int) {
+        viewModelScope.launch {
+            mediaDetailRepo.getShowTrailer(showId).collect { result ->
+                _uiState.update { currentState ->
+                    when (result) {
+                        is DataResult.Loading -> currentState.copy(
+                            isTrailerLoading = true,
+                        )
+
+                        is DataResult.Success -> currentState.copy(
+                            showTrailer = result.data,
+                            isTrailerLoading = false
+                        )
+
+                        is DataResult.Error -> currentState.copy(
+                            isTrailerLoading = false
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

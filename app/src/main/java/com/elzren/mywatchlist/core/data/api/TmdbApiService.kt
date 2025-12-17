@@ -8,6 +8,7 @@ import com.elzren.mywatchlist.home.domain.model.Movie
 import com.elzren.mywatchlist.home.domain.model.Show
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
+import com.elzren.mywatchlist.mediaDetail.domain.model.VideosResponse
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Credit
 import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.MovieKeywordResponse
 import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.ShowKeywordResponse
@@ -84,6 +85,16 @@ interface TmdbApiService {
     suspend fun getShowKeywords(
         @Path("showId") showId: Int,
     ): ShowKeywordResponse
+
+    @GET("movie/{movieId}/videos")
+    suspend fun getMovieVideos(
+        @Path("movieId") movieId: Int,
+    ): VideosResponse
+
+    @GET("tv/{showId}/videos")
+    suspend fun getShowVideos(
+        @Path("showId") showId: Int,
+    ): VideosResponse
 
     @GET("discover/movie")
     suspend fun getMovies(

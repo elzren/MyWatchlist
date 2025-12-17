@@ -6,6 +6,7 @@ import com.elzren.mywatchlist.core.presentation.mapper.asMedia
 import com.elzren.mywatchlist.core.utils.DataResult
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
+import com.elzren.mywatchlist.mediaDetail.domain.model.Video
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
 import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.Keyword
 import com.elzren.mywatchlist.mediaDetail.domain.repository.MediaDetailRepository
@@ -115,5 +116,29 @@ class MediaDetailRepositoryImp @Inject constructor(private val tmdbApi: TmdbApiS
         }
     }
 
+    override suspend fun getMovieTrailer(movieId: Int): Flow<DataResult<List<Video>>> {
+        return flow {
+            emit(DataResult.Loading())
+            try {
+                val res = tmdbApi.getMovieVideos(movieId)
+                val trailer = res.results.filter { video -> video.type == "Trailer" }
+                emit(DataResult.Success(trailer))
+            } catch (e: Exception) {
+                emit(DataResult.Error(e))
+            }
+        }
+    }
 
+    override suspend fun getShowTrailer(showId: Int): Flow<DataResult<List<Video>>> {
+        return flow {
+            emit(DataResult.Loading())
+            try {
+                val res = tmdbApi.getShowVideos(showId)
+                val trailer = res.results.filter { video -> video.type == "Trailer" }
+                emit(DataResult.Success(trailer))
+            } catch (e: Exception) {
+                emit(DataResult.Error(e))
+            }
+        }
+    }
 }

@@ -7,17 +7,19 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun <T> HorizontalFeed(
     items: List<T>,
     itemContent: @Composable (LazyItemScope.(T) -> Unit),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    gap: Dp = 4.dp
 ) {
     LazyRow(
         contentPadding = PaddingValues(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(gap),
         modifier = modifier
     ) {
         items(items = items, itemContent = itemContent)

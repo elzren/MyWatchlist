@@ -4,6 +4,7 @@ import com.elzren.mywatchlist.core.domain.model.Media
 import com.elzren.mywatchlist.core.utils.DataResult
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
+import com.elzren.mywatchlist.mediaDetail.domain.model.Video
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
 import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.Keyword
 import kotlinx.coroutines.flow.Flow
@@ -20,4 +21,7 @@ interface MediaDetailRepository {
 
     suspend fun getMovieKeywords(movieId: Int): Flow<DataResult<List<Keyword>>>
     suspend fun getShowKeywords(showId: Int): Flow<DataResult<List<Keyword>>>
+
+    suspend fun getMovieTrailer(movieId: Int): Flow<DataResult<List<Video>>>
+    suspend fun getShowTrailer(showId: Int): Flow<DataResult<List<Video>>>
 }
