@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.elzren.mywatchlist.R
 import com.elzren.mywatchlist.core.utils.StringUtils.capitalizeFirstChar
+import com.elzren.mywatchlist.core.utils.Utils.nonZeroOrNull
+import com.elzren.mywatchlist.mediaDetail.utils.Utils
 
 @Composable
 fun InfoRow(
@@ -26,21 +28,23 @@ fun InfoRow(
         modifier = modifier.horizontalScroll(rememberScrollState())
     ) {
         Text(text = mediaType.capitalizeFirstChar(), color = color)
-        DotSeparator(color = color)
 
         if (releaseDate.isNotBlank()) {
-            Text(text = releaseDate.substringBefore('-'), color = color)
             DotSeparator(color = color)
+            Text(text = releaseDate.substringBefore('-'), color = color)
         }
 
-        Text(text = originalLanguage.capitalizeFirstChar(), color = color)
         DotSeparator(color = color)
+        Text(text = originalLanguage.capitalizeFirstChar(), color = color)
 
-        TextWithIcon(
-            icon = R.drawable.star_20px,
-            text = voteAverage.toString().substring(0, 3),
-            color = color
-        )
+        if (voteAverage.nonZeroOrNull() != null) {
+            DotSeparator(color = color)
+            TextWithIcon(
+                icon = R.drawable.star_20px,
+                text = voteAverage.let { Utils.formatDecimal(it, "##.#") },
+                color = color
+            )
+        }
     }
 }
 

@@ -25,6 +25,7 @@ import com.elzren.mywatchlist.core.domain.model.Media
 import com.elzren.mywatchlist.core.presentation.composables.CenteredBox
 import com.elzren.mywatchlist.core.presentation.composables.Heading
 import com.elzren.mywatchlist.core.presentation.composables.HorizontalFeed
+import com.elzren.mywatchlist.core.presentation.composables.InfoItem
 import com.elzren.mywatchlist.core.presentation.composables.MediaPosterClickable
 import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 import com.elzren.mywatchlist.core.utils.ContextUtils.copyToClipboard
@@ -44,6 +45,7 @@ import com.elzren.mywatchlist.mediaDetail.presentation.composables.PosterRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.Synopsis
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.TrailerRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.WatchlistButton
+import com.elzren.mywatchlist.mediaDetail.utils.Utils
 
 
 @Composable
@@ -54,12 +56,7 @@ fun ShowDetailScreen(
     viewModel: ShowDetailViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = Unit) {
-        viewModel.getShowDetail(showId)
-        viewModel.getWatchlistStatus(showId)
-        viewModel.getShowCast(showId)
-        viewModel.getShowRecommendations(showId)
-        viewModel.getShowKeywords(showId)
-        viewModel.getShowTrailer(showId)
+        viewModel.getShowData(showId)
     }
     val showDetailUiState by viewModel.uiState.collectAsState()
 
@@ -170,6 +167,9 @@ fun ShowDetailScreenContent(
                 }
             }
 
+            Heading(title = stringResource(R.string.info))
+            ShowInfo(showDetail)
+
             if (showKeywords.isNotEmpty()) {
                 Heading(title = stringResource(R.string.tags))
                 Keywords(
@@ -196,6 +196,42 @@ fun ShowDetailScreenContent(
                     })
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ShowInfo(showDetail: ShowDetail, modifier: Modifier = Modifier) {
+    with(showDetail) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp), modifier = modifier) {
+            InfoItem(
+                title = stringResource(R.string.language),
+                info = originalLanguage.let { Utils.getLanguageName(it) }
+            )
+            InfoItem(
+                title = stringResource(R.string.status),
+                info = status
+            )
+            InfoItem(
+                title = stringResource(R.string.first_air_date),
+                info = firstAirDate.let { Utils.formatDate(it) }
+            )
+            InfoItem(
+                title = stringResource(R.string.last_air_date),
+                info = lastAirDate?.let { Utils.formatDate(it) }
+            )
+            InfoItem(
+                title = stringResource(R.string.seasons),
+                info = numberOfSeasons.toString()
+            )
+            InfoItem(
+                title = stringResource(R.string.episodes),
+                info = numberOfEpisodes.toString()
+            )
+            InfoItem(
+                title = stringResource(R.string.created_by),
+                info = createdBy.getOrNull(0)?.name
+            )
         }
     }
 }

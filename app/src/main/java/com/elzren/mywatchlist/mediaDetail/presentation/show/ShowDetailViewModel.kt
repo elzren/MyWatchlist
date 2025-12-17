@@ -24,6 +24,15 @@ class ShowDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ShowDetailUiState())
     val uiState = _uiState.asStateFlow()
 
+    fun getShowData(showId: Int) {
+        getShowDetail(showId)
+        getWatchlistStatus(showId)
+        getShowCast(showId)
+        getShowRecommendations(showId)
+        getShowKeywords(showId)
+        getShowTrailer(showId)
+    }
+
     fun getShowDetail(showId: Int) {
         viewModelScope.launch {
             mediaDetailRepo.getShowDetail(showId).collect { result ->

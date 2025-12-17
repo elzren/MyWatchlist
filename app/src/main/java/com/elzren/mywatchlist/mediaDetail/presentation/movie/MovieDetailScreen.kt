@@ -24,10 +24,12 @@ import com.elzren.mywatchlist.core.domain.model.Media
 import com.elzren.mywatchlist.core.presentation.composables.CenteredBox
 import com.elzren.mywatchlist.core.presentation.composables.Heading
 import com.elzren.mywatchlist.core.presentation.composables.HorizontalFeed
+import com.elzren.mywatchlist.core.presentation.composables.InfoItem
 import com.elzren.mywatchlist.core.presentation.composables.MediaPosterClickable
 import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 import com.elzren.mywatchlist.core.utils.ContextUtils.copyToClipboard
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
+import com.elzren.mywatchlist.core.utils.Utils.nonZeroOrNull
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.domain.model.Video
 import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
@@ -43,6 +45,7 @@ import com.elzren.mywatchlist.mediaDetail.presentation.composables.PosterRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.Synopsis
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.TrailerRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.WatchlistButton
+import com.elzren.mywatchlist.mediaDetail.utils.Utils
 
 @Composable
 fun MovieDetailScreen(
@@ -52,12 +55,7 @@ fun MovieDetailScreen(
     viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = Unit) {
-        viewModel.getMovieDetail(movieId)
-        viewModel.getWatchlistStatus(movieId)
-        viewModel.getMovieCast(movieId)
-        viewModel.getMovieRecommendations(movieId)
-        viewModel.getMovieKeywords(movieId)
-        viewModel.getMovieTrailer(movieId)
+        viewModel.getMovieData(movieId)
     }
     val movieDetailUiState by viewModel.uiState.collectAsState()
 
@@ -163,6 +161,9 @@ fun MovieDetailScreenContent(
                 }
             }
 
+            Heading(title = stringResource(R.string.info))
+            MovieInfo(movieDetail)
+
             if (movieKeywords.isNotEmpty()) {
                 Heading(title = stringResource(R.string.tags))
                 Keywords(keywords = movieKeywords, navActionManager = navActionManager)
@@ -189,5 +190,34 @@ fun MovieDetailScreenContent(
     }
 }
 
-
-
+@Composable
+private fun MovieInfo(movieDetail: MovieDetail, modifier: Modifier = Modifier) {
+    with(movieDetail) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp), modifier = modifier) {
+            InfoItem(
+                title = stringResource(R.string.language),
+                info = originalLanguage.let { Utils.getLanguageName(it) }
+            )
+            InfoItem(
+                title = stringResource(R.string.status),
+                info = status
+            )
+            InfoItem(
+                title = stringResource(R.string.release_date),
+                info = releaseDate.let { Utils.formatDate(it) }
+            )
+            InfoItem(
+                title = stringResource(R.string.runtime),
+                info = runtime.nonZeroOrNull()?.let { Utils.formatDuration(it) }
+            )
+            InfoItem(
+                title = stringResource(R.string.budget),
+                info = budget.nonZeroOrNull()?.let { Utils.formatAmount(it) }
+            )
+            InfoItem(
+                title = stringResource(R.string.box_office),
+                info = revenue.nonZeroOrNull()?.let { Utils.formatAmount(it) }
+            )
+        }
+    }
+}

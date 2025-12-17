@@ -24,6 +24,15 @@ class MovieDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MovieDetailUiState())
     val uiState = _uiState.asStateFlow()
 
+    fun getMovieData(movieId: Int) {
+        getMovieDetail(movieId)
+        getWatchlistStatus(movieId)
+        getMovieCast(movieId)
+        getMovieRecommendations(movieId)
+        getMovieKeywords(movieId)
+        getMovieTrailer(movieId)
+    }
+
     fun getMovieDetail(movieId: Int) {
         viewModelScope.launch {
             mediaDetailRepo.getMovieDetail(movieId).collect { result ->
