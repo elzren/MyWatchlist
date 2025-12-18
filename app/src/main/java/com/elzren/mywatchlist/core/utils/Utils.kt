@@ -12,6 +12,8 @@ object Utils {
     fun Long.nonZeroOrNull() = if (this == 0L) null else this
     fun Double.nonZeroOrNull() = if (this == 0.0) null else this
 
+    fun String.nonBlankOrNull() = ifBlank { null }
+
     fun Modifier.defaultPlaceholder(visible: Boolean) = composed {
         placeholder(
             visible = visible,

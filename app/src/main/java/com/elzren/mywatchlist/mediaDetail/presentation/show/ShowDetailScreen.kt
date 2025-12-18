@@ -28,6 +28,7 @@ import com.elzren.mywatchlist.core.utils.ContextUtils.copyToClipboard
 import com.elzren.mywatchlist.core.utils.ContextUtils.showToast
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
 import com.elzren.mywatchlist.core.utils.Utils.defaultPlaceholder
+import com.elzren.mywatchlist.core.utils.Utils.nonBlankOrNull
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.CastItem
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.CastItemPlaceholder
@@ -229,7 +230,7 @@ private fun ShowInfo(showDetail: ShowDetail, modifier: Modifier = Modifier) {
             )
             InfoItem(
                 title = stringResource(R.string.first_air_date),
-                info = firstAirDate.let { Utils.formatDate(it) }
+                info = firstAirDate.nonBlankOrNull()?.let { Utils.formatDate(it) }
             )
             InfoItem(
                 title = stringResource(R.string.last_air_date),

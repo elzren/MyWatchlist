@@ -27,6 +27,7 @@ import com.elzren.mywatchlist.core.utils.ContextUtils.copyToClipboard
 import com.elzren.mywatchlist.core.utils.ContextUtils.showToast
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
 import com.elzren.mywatchlist.core.utils.Utils.defaultPlaceholder
+import com.elzren.mywatchlist.core.utils.Utils.nonBlankOrNull
 import com.elzren.mywatchlist.core.utils.Utils.nonZeroOrNull
 import com.elzren.mywatchlist.mediaDetail.domain.model.MovieDetail
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.CastItem
@@ -220,7 +221,7 @@ private fun MovieInfo(movieDetail: MovieDetail, modifier: Modifier = Modifier) {
             )
             InfoItem(
                 title = stringResource(R.string.release_date),
-                info = releaseDate.let { Utils.formatDate(it) }
+                info = releaseDate.nonBlankOrNull()?.let { Utils.formatDate(it) }
             )
             InfoItem(
                 title = stringResource(R.string.runtime),
