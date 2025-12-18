@@ -26,7 +26,7 @@ import com.elzren.mywatchlist.R
 import com.elzren.mywatchlist.core.utils.ContextUtils.copyToClipboard
 
 @Composable
-fun Synopsis(synopsis: String, modifier: Modifier = Modifier) {
+fun Synopsis(synopsis: String, modifier: Modifier = Modifier, textModifier: Modifier = Modifier) {
     val context = LocalContext.current
     var isSynopsisOverflowing by remember { mutableStateOf(false) }
     var isSynopsisExpanded by remember { mutableStateOf(false) }
@@ -35,7 +35,9 @@ fun Synopsis(synopsis: String, modifier: Modifier = Modifier) {
         isSynopsisExpanded = !isSynopsisExpanded
     }
 
-    Column(modifier = modifier.padding(horizontal = 16.dp)) {
+    Column(modifier = modifier
+        .padding(horizontal = 16.dp)
+        .padding(top = 16.dp)) {
         Text(
             text = synopsis,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -44,9 +46,9 @@ fun Synopsis(synopsis: String, modifier: Modifier = Modifier) {
             maxLines = if (isSynopsisExpanded) Int.MAX_VALUE else 5,
             overflow = TextOverflow.Ellipsis,
             onTextLayout = { result ->
-                if (!isSynopsisOverflowing) isSynopsisOverflowing = result.hasVisualOverflow
+                if (!isSynopsisExpanded) isSynopsisOverflowing = result.hasVisualOverflow
             },
-            modifier = Modifier
+            modifier = textModifier
                 .combinedClickable(
                     onLongClick = { context.copyToClipboard(synopsis) },
                     onClick = { if (isSynopsisOverflowing) toggleSynopsisExpand() }

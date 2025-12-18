@@ -95,4 +95,6 @@ dependencies {
 
     // Preferences Datastore
     implementation(libs.datastore.preferences)
+
+    implementation(libs.placeholder.material3)
 }

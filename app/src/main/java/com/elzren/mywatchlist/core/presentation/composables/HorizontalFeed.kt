@@ -13,12 +13,12 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun <T> HorizontalFeed(
     items: List<T>,
-    itemContent: @Composable (LazyItemScope.(T) -> Unit),
     modifier: Modifier = Modifier,
-    gap: Dp = 4.dp
+    gap: Dp = 4.dp,
+    itemContent: @Composable (LazyItemScope.(T) -> Unit),
 ) {
     LazyRow(
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(horizontal =  16.dp),
         horizontalArrangement = Arrangement.spacedBy(gap),
         modifier = modifier
     ) {

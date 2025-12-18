@@ -50,7 +50,6 @@ class MovieDetailViewModel @Inject constructor(
 
                         is DataResult.Error -> currentState.copy(
                             errorMessage = result.error.userMessage(),
-                            isLoading = false
                         )
                     }
                 }
@@ -92,9 +91,7 @@ class MovieDetailViewModel @Inject constructor(
                             isCastLoading = false
                         )
 
-                        is DataResult.Error -> currentState.copy(
-                            isCastLoading = false
-                        )
+                        is DataResult.Error -> currentState
                     }
                 }
             }

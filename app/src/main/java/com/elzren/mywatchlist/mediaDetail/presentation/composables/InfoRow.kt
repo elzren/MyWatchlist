@@ -18,9 +18,9 @@ import com.elzren.mywatchlist.mediaDetail.utils.Utils
 @Composable
 fun InfoRow(
     mediaType: String,
-    releaseDate: String,
-    originalLanguage: String,
-    voteAverage: Double,
+    releaseDate: String?,
+    originalLanguage: String?,
+    voteAverage: Double?,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onSurfaceVariant
 ) {
@@ -29,15 +29,17 @@ fun InfoRow(
     ) {
         Text(text = mediaType.capitalizeFirstChar(), color = color)
 
-        if (releaseDate.isNotBlank()) {
+        if (!releaseDate.isNullOrBlank()) {
             DotSeparator(color = color)
             Text(text = releaseDate.substringBefore('-'), color = color)
         }
 
-        DotSeparator(color = color)
-        Text(text = originalLanguage.capitalizeFirstChar(), color = color)
+        if (!originalLanguage.isNullOrBlank()) {
+            DotSeparator(color = color)
+            Text(text = originalLanguage.capitalizeFirstChar(), color = color)
+        }
 
-        if (voteAverage.nonZeroOrNull() != null) {
+        if (voteAverage?.nonZeroOrNull() != null) {
             DotSeparator(color = color)
             TextWithIcon(
                 icon = R.drawable.star_20px,

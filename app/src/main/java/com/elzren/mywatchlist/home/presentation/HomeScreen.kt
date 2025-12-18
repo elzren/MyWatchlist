@@ -75,7 +75,7 @@ fun HomeScreenContent(
 ) {
     LazyColumn(modifier = modifier) {
         item {
-            Heading(title = "Trending Movies", modifier = Modifier.padding(top = 8.dp))
+            Heading(title = "Trending Movies", topPadding = 8.dp)
             HorizontalFeed(items = homeUiState.trendingMovies, itemContent = { movie ->
                 MediaPosterClickable(
                     posterUrl = movie.posterPath?.toTmdbImgUrl(),
@@ -86,7 +86,7 @@ fun HomeScreenContent(
         }
 
         item {
-            Heading(title = "Trending Shows", modifier = Modifier.padding(top = 8.dp))
+            Heading(title = "Trending Shows")
             HorizontalFeed(items = homeUiState.trendingShows, itemContent = { show ->
                 MediaPosterClickable(
                     posterUrl = show.posterPath?.toTmdbImgUrl(),
@@ -97,7 +97,7 @@ fun HomeScreenContent(
         }
 
         item {
-            Heading(title = "Popular Movies", modifier = Modifier.padding(top = 8.dp))
+            Heading(title = "Popular Movies")
             HorizontalFeed(items = homeUiState.popularMovies, itemContent = { movie ->
                 MediaPosterClickable(
                     posterUrl = movie.posterPath?.toTmdbImgUrl(),
@@ -108,7 +108,7 @@ fun HomeScreenContent(
         }
 
         item {
-            Heading(title = "Popular Shows", modifier = Modifier.padding(top = 8.dp))
+            Heading(title = "Popular Shows")
             HorizontalFeed(items = homeUiState.popularShows, itemContent = { show ->
                 MediaPosterClickable(
                     posterUrl = show.posterPath?.toTmdbImgUrl(),

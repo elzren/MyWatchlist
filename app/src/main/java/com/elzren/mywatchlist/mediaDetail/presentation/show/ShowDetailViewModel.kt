@@ -50,7 +50,6 @@ class ShowDetailViewModel @Inject constructor(
 
                         is DataResult.Error -> currentState.copy(
                             errorMessage = result.error.userMessage(),
-                            isLoading = false
                         )
                     }
                 }
@@ -92,9 +91,7 @@ class ShowDetailViewModel @Inject constructor(
                             isCastLoading = false
                         )
 
-                        is DataResult.Error -> currentState.copy(
-                            isCastLoading = false
-                        )
+                        is DataResult.Error -> currentState
                     }
                 }
             }

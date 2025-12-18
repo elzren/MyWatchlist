@@ -20,7 +20,7 @@ import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MediaDetailScaffold(
-    title: String,
+    title: String?,
     navActionManager: NavActionManager,
     modifier: Modifier = Modifier,
     content: @Composable ((PaddingValues) -> Unit)

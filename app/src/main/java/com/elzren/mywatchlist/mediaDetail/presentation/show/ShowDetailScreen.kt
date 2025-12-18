@@ -4,13 +4,11 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,21 +19,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.elzren.mywatchlist.R
-import com.elzren.mywatchlist.core.domain.model.Media
-import com.elzren.mywatchlist.core.presentation.composables.CenteredBox
 import com.elzren.mywatchlist.core.presentation.composables.Heading
 import com.elzren.mywatchlist.core.presentation.composables.HorizontalFeed
 import com.elzren.mywatchlist.core.presentation.composables.InfoItem
 import com.elzren.mywatchlist.core.presentation.composables.MediaPosterClickable
 import com.elzren.mywatchlist.core.presentation.navigation.NavActionManager
 import com.elzren.mywatchlist.core.utils.ContextUtils.copyToClipboard
+import com.elzren.mywatchlist.core.utils.ContextUtils.showToast
 import com.elzren.mywatchlist.core.utils.StringUtils.toTmdbImgUrl
+import com.elzren.mywatchlist.core.utils.Utils.defaultPlaceholder
 import com.elzren.mywatchlist.mediaDetail.domain.model.ShowDetail
-import com.elzren.mywatchlist.mediaDetail.domain.model.Video
-import com.elzren.mywatchlist.mediaDetail.domain.model.credit.Cast
-import com.elzren.mywatchlist.mediaDetail.domain.model.keyword.Keyword
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.CastItem
+import com.elzren.mywatchlist.mediaDetail.presentation.composables.CastItemPlaceholder
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.GenresRow
+import com.elzren.mywatchlist.mediaDetail.presentation.composables.GenresRowPlaceholder
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.InfoRow
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.Keywords
 import com.elzren.mywatchlist.mediaDetail.presentation.composables.MediaBanner
@@ -55,145 +52,163 @@ fun ShowDetailScreen(
     modifier: Modifier = Modifier,
     viewModel: ShowDetailViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(key1 = showId) {
         viewModel.getShowData(showId)
     }
+
     val showDetailUiState by viewModel.uiState.collectAsState()
 
-    with(showDetailUiState) {
-        if (errorMessage != null) {
-            CenteredBox(modifier = Modifier.fillMaxSize()) {
-                Text(text = stringResource(errorMessage))
-            }
-        } else if (showDetail == null) {
-            CenteredBox(modifier = Modifier.fillMaxSize()) {
-                CircularProgressIndicator()
-            }
-        } else {
-            ShowDetailScreenContent(
-                showDetail = showDetail,
-                navActionManager = navActionManager,
-                isInWatchlist = isInWatchlist,
-                showCast = showCast,
-                showRecommendations = showRecommendations,
-                showKeywords = showKeywords,
-                showTrailer = showTrailer,
-                modifier = modifier,
-            )
-        }
-    }
+    ShowDetailScreenContent(
+        uiState = showDetailUiState,
+        navActionManager = navActionManager,
+        viewModel = viewModel,
+        modifier = modifier
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShowDetailScreenContent(
-    showDetail: ShowDetail,
+    uiState: ShowDetailUiState,
     navActionManager: NavActionManager,
-    isInWatchlist: Boolean,
-    showCast: List<Cast>,
-    showRecommendations: List<Media>,
-    showKeywords: List<Keyword>,
-    showTrailer: List<Video>,
+    viewModel: ShowDetailViewModel,
     modifier: Modifier = Modifier,
-    viewModel: ShowDetailViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
 
-    MediaDetailScaffold(title = showDetail.name, navActionManager = navActionManager) { padding ->
+    LaunchedEffect(key1 = uiState.errorMessage) {
+        if (uiState.errorMessage != null) {
+            context.showToast(context.getString(uiState.errorMessage))
+        }
+    }
+
+    MediaDetailScaffold(
+        title = uiState.showDetail?.name,
+        navActionManager = navActionManager
+    ) { padding ->
         Column(
             modifier = modifier
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = padding.calculateBottomPadding())
                 .padding(bottom = 80.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Box {
-                MediaBanner(bannerUrl = showDetail.backdropPath?.toTmdbImgUrl("original"))
-                PosterRow(posterUrl = showDetail.posterPath?.toTmdbImgUrl()) {
+                MediaBanner(bannerUrl = uiState.showDetail?.backdropPath?.toTmdbImgUrl("original"))
+                PosterRow(posterUrl = uiState.showDetail?.posterPath?.toTmdbImgUrl()) {
                     MediaTitle(
-                        title = showDetail.name,
+                        title = uiState.showDetail?.name ?: stringResource(R.string.loading),
                         modifier = Modifier
                             .padding(top = 16.dp)
+                            .defaultPlaceholder(visible = uiState.isLoading)
                             .combinedClickable(
-                                onLongClick = { context.copyToClipboard(showDetail.name) },
+                                onLongClick = {
+                                    uiState.showDetail?.name?.let {
+                                        context.copyToClipboard(it)
+                                    }
+                                },
                                 onClick = {}
                             )
                     )
                     InfoRow(
                         mediaType = "tv",
-                        releaseDate = showDetail.firstAirDate,
-                        originalLanguage = showDetail.originalLanguage,
-                        voteAverage = showDetail.voteAverage,
-                        modifier = Modifier.padding(vertical = 8.dp),
+                        releaseDate = uiState.showDetail?.firstAirDate,
+                        originalLanguage = uiState.showDetail?.originalLanguage,
+                        voteAverage = uiState.showDetail?.voteAverage,
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                            .fillMaxWidth()
+                            .defaultPlaceholder(visible = uiState.isLoading),
                     )
                     WatchlistButton(
-                        isInWatchlist = isInWatchlist,
+                        isInWatchlist = uiState.isInWatchlist,
                         onClick = {
-                            if (isInWatchlist) {
-                                viewModel.removeFromWatchlist(showDetail.id)
-                            } else {
-                                viewModel.addToWatchlist(showDetail)
+                            uiState.showDetail?.let {
+                                if (uiState.isInWatchlist) {
+                                    viewModel.removeFromWatchlist(it.id)
+                                } else {
+                                    viewModel.addToWatchlist(it)
+                                }
                             }
-                        }
+                        },
+                        modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                     )
                 }
             }
-            GenresRow(
-                genres = showDetail.genres,
-                navActionManager = navActionManager,
-                isShow = true
-            )
-            Synopsis(synopsis = showDetail.overview)
 
-            if (showCast.isNotEmpty()) {
-                Column {
-                    Heading(title = stringResource(R.string.cast))
-                    HorizontalFeed(items = showCast, itemContent = { cast ->
-                        CastItem(
-                            id = cast.id,
-                            profilePath = cast.profilePath,
-                            characterName = cast.character,
-                            playedBy = cast.name,
-                            navActionManager = navActionManager
-                        )
-                    })
-                }
-            }
-
-            if (showTrailer.isNotEmpty()) {
-                Column {
-                    Heading(title = stringResource(R.string.trailer))
-                    TrailerRow(showTrailer)
-                }
-            }
-
-            Heading(title = stringResource(R.string.info))
-            ShowInfo(showDetail)
-
-            if (showKeywords.isNotEmpty()) {
-                Heading(title = stringResource(R.string.tags))
-                Keywords(
-                    keywords = showKeywords,
+            if (uiState.isLoading) {
+                GenresRowPlaceholder()
+            } else {
+                GenresRow(
+                    genres = uiState.showDetail?.genres.orEmpty(),
                     navActionManager = navActionManager,
                     isShow = true
                 )
             }
 
-            if (showRecommendations.isNotEmpty()) {
+            Synopsis(
+                synopsis = uiState.showDetail?.overview ?: stringResource(R.string.lorem_ipsun),
+                textModifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
+            )
+
+            if (uiState.showCast.isNotEmpty() || uiState.isCastLoading) {
+                Column {
+                    Heading(title = stringResource(R.string.cast))
+                    if (uiState.isCastLoading) {
+                        HorizontalFeed(items = List(10) { it }) {
+                            CastItemPlaceholder()
+                        }
+                    } else {
+                        HorizontalFeed(items = uiState.showCast, itemContent = { cast ->
+                            CastItem(
+                                id = cast.id,
+                                profilePath = cast.profilePath,
+                                characterName = cast.character,
+                                playedBy = cast.name,
+                                navActionManager = navActionManager
+                            )
+                        })
+                    }
+                }
+            }
+
+            if (uiState.showDetail != null) {
+                Heading(title = stringResource(R.string.info))
+                ShowInfo(uiState.showDetail)
+            }
+
+            if (uiState.showTrailer.isNotEmpty()) {
+                Column {
+                    Heading(title = stringResource(R.string.trailer))
+                    TrailerRow(uiState.showTrailer)
+                }
+            }
+
+            if (uiState.showKeywords.isNotEmpty()) {
+                Heading(title = stringResource(R.string.tags))
+                Keywords(
+                    keywords = uiState.showKeywords,
+                    navActionManager = navActionManager,
+                    isShow = true
+                )
+            }
+
+            if (uiState.showRecommendations.isNotEmpty()) {
                 Column {
                     Heading(title = stringResource(R.string.recommendations))
-                    HorizontalFeed(items = showRecommendations, itemContent = { recommendation ->
-                        MediaPosterClickable(
-                            posterUrl = recommendation.posterPath?.toTmdbImgUrl(),
-                            onClick = {
-                                if (recommendation.mediaType == "movie") navActionManager.toMovieDetail(
-                                    recommendation.id
-                                ) else navActionManager.toShowDetail(
-                                    recommendation.id
-                                )
-                            }
-                        )
-                    })
+                    HorizontalFeed(
+                        items = uiState.showRecommendations,
+                        itemContent = { recommendation ->
+                            MediaPosterClickable(
+                                posterUrl = recommendation.posterPath?.toTmdbImgUrl(),
+                                onClick = {
+                                    if (recommendation.mediaType == "movie") navActionManager.toMovieDetail(
+                                        recommendation.id
+                                    ) else navActionManager.toShowDetail(
+                                        recommendation.id
+                                    )
+                                }
+                            )
+                        })
                 }
             }
         }
