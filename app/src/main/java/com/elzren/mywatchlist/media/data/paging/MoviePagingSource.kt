@@ -4,10 +4,16 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import coil3.network.HttpException
 import com.elzren.mywatchlist.core.data.api.TmdbApiService
+import com.elzren.mywatchlist.core.utils.Constants
 import com.elzren.mywatchlist.home.domain.model.Movie
 import okio.IOException
 
-class MoviePagingSource(val tmdbApi: TmdbApiService, val genres: String?, val keywords: String?) :
+class MoviePagingSource(
+    val tmdbApi: TmdbApiService,
+    val showNsfw: Boolean,
+    val genres: String?,
+    val keywords: String?
+) :
     PagingSource<Int, Movie>() {
     override suspend fun load(
         params: LoadParams<Int>
@@ -19,6 +25,8 @@ class MoviePagingSource(val tmdbApi: TmdbApiService, val genres: String?, val ke
                 page = nextPageNumber,
                 withGenres = genres,
                 withKeywords = keywords,
+                withoutKeywords = if (showNsfw) null else Constants.NSFW_KEYWORDS,
+//                includeAdult = showNsfw
             )
 
             return LoadResult.Page(

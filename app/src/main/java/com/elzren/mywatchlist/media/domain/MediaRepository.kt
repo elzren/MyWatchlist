@@ -6,6 +6,6 @@ import com.elzren.mywatchlist.home.domain.model.Show
 import kotlinx.coroutines.flow.Flow
 
 interface MediaRepository {
-    fun getMovies(genres: String?, keywords: String?): Flow<PagingData<Movie>>
-    fun getShows(genres: String?, keywords: String?): Flow<PagingData<Show>>
+    suspend fun getMovies(genres: String?, keywords: String?): Flow<PagingData<Movie>>
+    suspend fun getShows(genres: String?, keywords: String?): Flow<PagingData<Show>>
 }

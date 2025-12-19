@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,23 +21,24 @@ class MediaViewModel @Inject constructor(private val mediaRepository: MediaRepos
     val uiState = _uiState.asStateFlow()
 
     fun getMedia() {
-        val genres = uiState.value.genres
-        val keywords = uiState.value.keywords
+        viewModelScope.launch {
+            val genres = uiState.value.genres
+            val keywords = uiState.value.keywords
 
-        val movies = mediaRepository.getMovies(genres, keywords)
-            .map { pagingData ->
-                pagingData.map { movie -> movie.asMedia() }
-            }
-            .cachedIn(viewModelScope)
+            val movies = mediaRepository.getMovies(genres, keywords)
+                .map { pagingData ->
+                    pagingData.map { movie -> movie.asMedia() }
+                }
+                .cachedIn(viewModelScope)
 
-        val shows = mediaRepository.getShows(genres, keywords)
-            .map { pagingData ->
-                pagingData.map { show -> show.asMedia() }
-            }
-            .cachedIn(viewModelScope)
+            val shows = mediaRepository.getShows(genres, keywords)
+                .map { pagingData ->
+                    pagingData.map { show -> show.asMedia() }
+                }
+                .cachedIn(viewModelScope)
 
-        _uiState.update { currentState -> currentState.copy(movies = movies, shows = shows) }
-
+            _uiState.update { currentState -> currentState.copy(movies = movies, shows = shows) }
+        }
     }
 
     fun setGenresAndKeywords(genres: String?, keywords: String?) {

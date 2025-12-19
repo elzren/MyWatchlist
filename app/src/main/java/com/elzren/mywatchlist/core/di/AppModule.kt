@@ -108,8 +108,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMediaRepository(tmdbApi: TmdbApiService): MediaRepository =
-        MediaRepositoryImp(tmdbApi)
+    fun provideMediaRepository(
+        tmdbApi: TmdbApiService,
+        preferencesRepository: PreferencesRepository
+    ): MediaRepository =
+        MediaRepositoryImp(tmdbApi, preferencesRepository)
 
     @Provides
     @Singleton

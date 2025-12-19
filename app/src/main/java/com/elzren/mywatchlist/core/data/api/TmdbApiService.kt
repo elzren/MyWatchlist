@@ -101,14 +101,18 @@ interface TmdbApiService {
     suspend fun getMovies(
         @Query("page") page: Int = 1,
         @Query("with_genres") withGenres: String?,
-        @Query("with_keywords") withKeywords: String?
+        @Query("with_keywords") withKeywords: String?,
+        @Query("without_keywords") withoutKeywords: String?,
+        @Query("include_adult") includeAdult: Boolean = false
     ): MediaResponse<Movie>
 
     @GET("discover/tv")
     suspend fun getShows(
         @Query("page") page: Int = 1,
         @Query("with_genres") withGenres: String?,
-        @Query("with_keywords") withKeywords: String?
+        @Query("with_keywords") withKeywords: String?,
+        @Query("without_keywords") withoutKeywords: String?,
+        @Query("include_adult") includeAdult: Boolean = false
     ): MediaResponse<Show>
 
     @GET("person/{personId}")

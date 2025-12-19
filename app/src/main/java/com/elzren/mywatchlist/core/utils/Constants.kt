@@ -18,6 +18,7 @@ object Constants {
 
     val THEME_KEY = stringPreferencesKey("theme")
     val NSFW_KEY = booleanPreferencesKey("nsfw")
+    const val NSFW_KEYWORDS = "155477|190370"
 
     const val GITHUB_REPO_URL = "https://github.com/elzren/MyWatchlist"
 
