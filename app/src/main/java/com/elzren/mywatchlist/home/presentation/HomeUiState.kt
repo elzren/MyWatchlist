@@ -13,10 +13,13 @@ data class HomeUiState(
     val isTrendingShowsLoading: Boolean = false,
     val isPopularMoviesLoading: Boolean = false,
     val isPopularShowsLoading: Boolean = false,
-    @param:StringRes val errorMessage: Int? = null
-) {
-    val isLoading: Boolean
-        get() {     // custom getter gets called whenever property is accessed
-            return isTrendingMoviesLoading || isTrendingShowsLoading || isPopularMoviesLoading || isPopularShowsLoading
-        }
-}
+    @param:StringRes val errorMessage: Int? = null,
+    val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false
+)
+//{
+//    val isLoading: Boolean
+//        get() {     // custom getter gets called whenever property is accessed
+//            return isTrendingMoviesLoading || isTrendingShowsLoading || isPopularMoviesLoading || isPopularShowsLoading
+//        }
+//}
