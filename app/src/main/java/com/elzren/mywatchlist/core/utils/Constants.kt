@@ -1,5 +1,6 @@
 package com.elzren.mywatchlist.core.utils
 
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
 object Constants {
@@ -16,6 +17,7 @@ object Constants {
     }
 
     val THEME_KEY = stringPreferencesKey("theme")
+    val NSFW_KEY = booleanPreferencesKey("nsfw")
 
     const val GITHUB_REPO_URL = "https://github.com/elzren/MyWatchlist"
 

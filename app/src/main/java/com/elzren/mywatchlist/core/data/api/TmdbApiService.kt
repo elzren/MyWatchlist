@@ -51,7 +51,8 @@ interface TmdbApiService {
     @GET("search/multi")
     suspend fun getMediaSearchResults(
         @Query("query") query: String,
-        @Query("page") page: Int = 1
+        @Query("page") page: Int = 1,
+        @Query("include_adult") includeAdult: Boolean = false
     ): MediaResponse<MediaModel>
 
     @GET("movie/{movieId}/credits")

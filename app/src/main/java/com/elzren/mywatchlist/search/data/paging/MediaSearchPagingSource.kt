@@ -9,7 +9,8 @@ import okio.IOException
 
 class MediaSearchPagingSource(
     val tmdbApi: TmdbApiService,
-    val query: String
+    val query: String,
+    val showNsfw: Boolean
 ) : PagingSource<Int, MediaModel>() {
     override suspend fun load(
         params: LoadParams<Int>
@@ -17,7 +18,11 @@ class MediaSearchPagingSource(
         try {
             // Start refresh at page 1 if undefined.
             val nextPageNumber = params.key ?: 1
-            val response = tmdbApi.getMediaSearchResults(query, nextPageNumber)
+            val response = tmdbApi.getMediaSearchResults(
+                query = query,
+                page = nextPageNumber,
+                includeAdult = showNsfw
+            )
             return LoadResult.Page(
                 data = response.results,
                 prevKey = null, // Only paging forward.

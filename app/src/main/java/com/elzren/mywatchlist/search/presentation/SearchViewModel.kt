@@ -44,7 +44,7 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
         }
     }
 
-    private fun searchMedia(query: String) {
+    private suspend fun searchMedia(query: String) {
         val searchResults =
             searchRepository.getMediaSearchResults(query)
                 .map { pagingData ->

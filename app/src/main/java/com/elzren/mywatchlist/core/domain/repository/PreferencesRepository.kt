@@ -6,4 +6,8 @@ import kotlinx.coroutines.flow.Flow
 interface PreferencesRepository {
     fun getTheme(): Flow<Theme>
     suspend fun setTheme(theme: Theme)
+
+    fun getNsfw(): Flow<Boolean>
+    suspend fun getNsfwFirst(): Boolean
+    suspend fun setNsfw(value: Boolean)
 }

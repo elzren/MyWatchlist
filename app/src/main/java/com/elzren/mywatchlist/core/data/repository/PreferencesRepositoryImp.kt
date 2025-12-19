@@ -7,6 +7,7 @@ import com.elzren.mywatchlist.core.domain.model.Theme
 import com.elzren.mywatchlist.core.domain.repository.PreferencesRepository
 import com.elzren.mywatchlist.core.utils.Constants
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -18,5 +19,15 @@ class PreferencesRepositoryImp @Inject constructor(private val dataStore: DataSt
 
     override suspend fun setTheme(theme: Theme) {
         dataStore.edit { preferences -> preferences[Constants.THEME_KEY] = theme.name }
+    }
+
+    override fun getNsfw(): Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[Constants.NSFW_KEY] ?: false
+    }
+
+    override suspend fun getNsfwFirst(): Boolean = getNsfw().first()
+
+    override suspend fun setNsfw(value: Boolean) {
+        dataStore.edit { preferences -> preferences[Constants.NSFW_KEY] = value }
     }
 }

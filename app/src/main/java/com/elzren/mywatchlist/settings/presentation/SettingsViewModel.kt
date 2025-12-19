@@ -18,9 +18,21 @@ class SettingsViewModel @Inject constructor(private val preferencesRepository: P
         initialValue = Theme.SYSTEM
     )
 
+    val nsfw = preferencesRepository.getNsfw().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = false
+    )
+
     fun setTheme(theme: Theme) {
         viewModelScope.launch {
             preferencesRepository.setTheme(theme)
+        }
+    }
+
+    fun setNsfw(value: Boolean) {
+        viewModelScope.launch {
+            preferencesRepository.setNsfw(value)
         }
     }
 }

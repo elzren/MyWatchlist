@@ -5,5 +5,5 @@ import com.elzren.mywatchlist.core.domain.model.MediaModel
 import kotlinx.coroutines.flow.Flow
 
 interface SearchRepository {
-    fun getMediaSearchResults(query: String): Flow<PagingData<MediaModel>>
+    suspend fun getMediaSearchResults(query: String): Flow<PagingData<MediaModel>>
 }
